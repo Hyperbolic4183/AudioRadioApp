@@ -11,6 +11,9 @@
 		47B315B8259EEBC200981F01 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B315B7259EEBC200981F01 /* SceneDelegate.swift */; };
 		47B315BF259EEBC300981F01 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47B315BE259EEBC300981F01 /* Assets.xcassets */; };
 		47B315C2259EEBC300981F01 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47B315C0259EEBC300981F01 /* LaunchScreen.storyboard */; };
+		47B315D5259EF2D100981F01 /* AudioListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B315D4259EF2D100981F01 /* AudioListTableViewController.swift */; };
+		47B315D8259EF7D500981F01 /* RecordingVieweController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B315D7259EF7D500981F01 /* RecordingVieweController.swift */; };
+		47B315DB259EF82300981F01 /* PlaybackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B315DA259EF82300981F01 /* PlaybackViewController.swift */; };
 		62E24A212506DE8469649C85 /* Pods_AudioRecordingApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1911EDC7DC004E98DF596283 /* Pods_AudioRecordingApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -22,6 +25,9 @@
 		47B315BE259EEBC300981F01 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		47B315C1259EEBC300981F01 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		47B315C3259EEBC300981F01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		47B315D4259EF2D100981F01 /* AudioListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioListTableViewController.swift; sourceTree = "<group>"; };
+		47B315D7259EF7D500981F01 /* RecordingVieweController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingVieweController.swift; sourceTree = "<group>"; };
+		47B315DA259EF82300981F01 /* PlaybackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackViewController.swift; sourceTree = "<group>"; };
 		84ACEC1352320DBBD4D1DA4C /* Pods-AudioRecordingApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AudioRecordingApp.debug.xcconfig"; path = "Target Support Files/Pods-AudioRecordingApp/Pods-AudioRecordingApp.debug.xcconfig"; sourceTree = "<group>"; };
 		A2C0F947DDAE131C945A1B71 /* Pods-AudioRecordingApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AudioRecordingApp.release.xcconfig"; path = "Target Support Files/Pods-AudioRecordingApp/Pods-AudioRecordingApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -74,6 +80,9 @@
 		47B315D0259EEED900981F01 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				47B315D4259EF2D100981F01 /* AudioListTableViewController.swift */,
+				47B315D7259EF7D500981F01 /* RecordingVieweController.swift */,
+				47B315DA259EF82300981F01 /* PlaybackViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -223,7 +232,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				47B315B6259EEBC200981F01 /* AppDelegate.swift in Sources */,
+				47B315DB259EF82300981F01 /* PlaybackViewController.swift in Sources */,
 				47B315B8259EEBC200981F01 /* SceneDelegate.swift in Sources */,
+				47B315D8259EF7D500981F01 /* RecordingVieweController.swift in Sources */,
+				47B315D5259EF2D100981F01 /* AudioListTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
