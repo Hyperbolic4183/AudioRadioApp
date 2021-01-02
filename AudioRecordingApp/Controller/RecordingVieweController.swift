@@ -16,7 +16,7 @@ class RecordingVieweController: UIViewController {
     }
     
     override func viewDidLoad() {
-        
+        view.backgroundColor = .white
     }
     
 }
