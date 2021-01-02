@@ -8,10 +8,7 @@
 import UIKit
 import SnapKit
 
-protocol RecordingViewDelegate: class {
-    func recording()
-    func stop()
-}
+
 
 class RecordingView: UIView {
     let recordingButton = UIButton()

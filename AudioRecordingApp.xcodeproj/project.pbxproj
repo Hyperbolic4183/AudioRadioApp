@@ -18,6 +18,7 @@
 		47B315E1259F012C00981F01 /* PlaybackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B315E0259F012C00981F01 /* PlaybackView.swift */; };
 		47B3160C25A045C900981F01 /* RecordingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B3160B25A045C900981F01 /* RecordingModel.swift */; };
 		47B3160F25A09A9300981F01 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B3160E25A09A9300981F01 /* Extensions.swift */; };
+		47B3161225A09C3400981F01 /* RecordingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B3161125A09C3400981F01 /* RecordingDelegate.swift */; };
 		62E24A212506DE8469649C85 /* Pods_AudioRecordingApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1911EDC7DC004E98DF596283 /* Pods_AudioRecordingApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -36,6 +37,7 @@
 		47B315E0259F012C00981F01 /* PlaybackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackView.swift; sourceTree = "<group>"; };
 		47B3160B25A045C900981F01 /* RecordingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingModel.swift; sourceTree = "<group>"; };
 		47B3160E25A09A9300981F01 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		47B3161125A09C3400981F01 /* RecordingDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingDelegate.swift; sourceTree = "<group>"; };
 		84ACEC1352320DBBD4D1DA4C /* Pods-AudioRecordingApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AudioRecordingApp.debug.xcconfig"; path = "Target Support Files/Pods-AudioRecordingApp/Pods-AudioRecordingApp.debug.xcconfig"; sourceTree = "<group>"; };
 		A2C0F947DDAE131C945A1B71 /* Pods-AudioRecordingApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AudioRecordingApp.release.xcconfig"; path = "Target Support Files/Pods-AudioRecordingApp/Pods-AudioRecordingApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -109,6 +111,7 @@
 			children = (
 				47B3160B25A045C900981F01 /* RecordingModel.swift */,
 				47B3160E25A09A9300981F01 /* Extensions.swift */,
+				47B3161125A09C3400981F01 /* RecordingDelegate.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -245,6 +248,7 @@
 			files = (
 				47B315E1259F012C00981F01 /* PlaybackView.swift in Sources */,
 				47B3160F25A09A9300981F01 /* Extensions.swift in Sources */,
+				47B3161225A09C3400981F01 /* RecordingDelegate.swift in Sources */,
 				47B315B6259EEBC200981F01 /* AppDelegate.swift in Sources */,
 				47B315DB259EF82300981F01 /* PlaybackViewController.swift in Sources */,
 				47B315DE259F00F100981F01 /* RecordingView.swift in Sources */,
