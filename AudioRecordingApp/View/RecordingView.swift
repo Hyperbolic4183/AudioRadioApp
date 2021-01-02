@@ -8,9 +8,14 @@
 import UIKit
 import SnapKit
 
+protocol RecordingViewDelegate: class {
+    func recording()
+}
+
 class RecordingView: UIView {
     let recordingButton = UIButton()
     let titleTextfield = UITextField()
+    weak var delegate: RecordingViewDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -21,6 +26,7 @@ class RecordingView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     
     private func setupRecordingButton() {
         
@@ -40,10 +46,12 @@ class RecordingView: UIView {
     }
     
     @objc func recordButtonTapped() {
+        delegate?.recording()
         recordingButton.isSelected = !recordingButton.isSelected
         if recordingButton.isSelected {
             recordingButton.backgroundColor = .red
             recordingButton.setTitleColor(.white, for: .normal)
+            
         } else {
             recordingButton.backgroundColor = .yellow
             recordingButton.setTitleColor(.black, for: .normal)

@@ -15,8 +15,18 @@ class RecordingVieweController: UIViewController {
         view = recordingView
     }
     
+    // ----------Modelの設定----------
+    var model = RecordingModel()
+    
     override func viewDidLoad() {
         view.backgroundColor = .white
+        recordingView.delegate = self
     }
     
+}
+
+extension RecordingVieweController: RecordingViewDelegate {
+    func recording() {
+        model.record()
+    }
 }
