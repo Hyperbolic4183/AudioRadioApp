@@ -26,6 +26,10 @@ class RecordingVieweController: UIViewController {
 }
 
 extension RecordingVieweController: RecordingViewDelegate {
+    func stop() {
+        model.stop()
+    }
+    
     func recording() {
         model.record()
     }

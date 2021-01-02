@@ -10,8 +10,10 @@ import AVFoundation
 
 struct RecordingModel {
     
-    func record()  {
+    func record() {
         print("record")
     }
-    
+    func stop() {
+        print("stop")
+    }
 }

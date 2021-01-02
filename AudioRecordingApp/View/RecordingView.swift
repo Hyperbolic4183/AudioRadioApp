@@ -10,6 +10,7 @@ import SnapKit
 
 protocol RecordingViewDelegate: class {
     func recording()
+    func stop()
 }
 
 class RecordingView: UIView {
@@ -32,6 +33,13 @@ class RecordingView: UIView {
         
         recordingButton.setTitleColor(.black, for: .normal)
         recordingButton.setTitle("録音する", for: .normal)
+        recordingButton.setTitleColor(.white, for: .normal)
+        recordingButton.backgroundColor(.red, for: .normal)
+        
+        recordingButton.setTitle("停止する", for: .selected)
+        recordingButton.setTitleColor(.black, for: .selected)
+        recordingButton.backgroundColor(.yellow, for: .selected)
+        
         recordingButton.backgroundColor = .yellow
         recordingButton.layer.cornerRadius = 50
         
@@ -46,16 +54,12 @@ class RecordingView: UIView {
     }
     
     @objc func recordButtonTapped() {
-        delegate?.recording()
-        recordingButton.isSelected = !recordingButton.isSelected
         if recordingButton.isSelected {
-            recordingButton.backgroundColor = .red
-            recordingButton.setTitleColor(.white, for: .normal)
-            
+            delegate?.stop()
         } else {
-            recordingButton.backgroundColor = .yellow
-            recordingButton.setTitleColor(.black, for: .normal)
+            delegate?.recording()
         }
+        recordingButton.isSelected = !recordingButton.isSelected
     }
     
     private func setupRecordingTitleTextfield() {
@@ -68,3 +72,5 @@ class RecordingView: UIView {
         
     }
 }
+
+
