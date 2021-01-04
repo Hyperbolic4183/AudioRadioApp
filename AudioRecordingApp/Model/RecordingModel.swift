@@ -37,6 +37,29 @@ struct RecordingModel {
             return
         }
     }
+    
+    //Documetnsの先にフォルダを作成する関数
+    func addFolder(_ folderName: String) {
+        let fileManager = FileManager.default
+        let documentDirectoryFileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let directory = documentDirectoryFileURL.appendingPathComponent(folderName, isDirectory: true)
+        do {
+            try fileManager.createDirectory(at: directory, withIntermediateDirectories: true, attributes: nil)
+        } catch {
+            print("失敗した")
+        }
+    }
+    //Documents/folderNameに含まれるファイルの数を返す関数
+    func countFiles(_ folderName: String) -> Int? {
+        var pathString = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+        pathString = pathString + "/" + folderName
+        do {
+            return try FileManager.default.contentsOfDirectory(atPath: pathString).count
+        } catch let error {
+            print("失敗した\(error)")
+            return nil
+        }
+    }
 
 }
 
