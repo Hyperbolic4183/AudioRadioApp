@@ -12,8 +12,7 @@ struct RecordingModel {
     var audioRecoder: AVAudioRecorder!
     var audioPlayer: AVAudioPlayer!
     
-    func record() {
-        print("record")
+    func audioSession() {
         let audioSession = AVAudioSession.sharedInstance()
         //許可を求めるアラートを表示する
         audioSession.requestRecordPermission { granted in
@@ -36,6 +35,23 @@ struct RecordingModel {
             print("audioSessionのアクティブ可に失敗した")
             return
         }
+    }
+    
+    func record() {
+        var audioRecoder = AVAudioRecorder()
+        let settings = [
+            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+            AVSampleRateKey: 44100,
+            AVNumberOfChannelsKey: 2,
+            AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
+        ]
+        guard let url = addFileToDraftFolder() else { return }
+        do {
+            audioRecoder = try AVAudioRecorder(url: url, settings: settings)
+        } catch {
+            print("AVAudioRecoderのインスタンス化に失敗\(error)")
+        }
+        audioRecoder.record()
     }
     
     //Documetnsの先にフォルダを作成する関数
