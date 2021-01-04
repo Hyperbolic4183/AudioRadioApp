@@ -61,6 +61,29 @@ struct RecordingModel {
         }
     }
 
+    func addfileToFolder(_ folderName: String, _ fileName: String) {
+        var pathString = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+        //フォルダを追加する
+        addFolder(folderName)
+        //パスを用意する
+        pathString = "file://" + pathString + "/" + folderName
+        guard let path = URL(string: pathString) else { return }
+        //保存するファイルを用意する
+        let fileName = "\(fileName).txt"
+        let textPath = path.appendingPathComponent(fileName)
+
+        //内容を用意する
+        let testText = "This is a pen"
+        let data: Data? = testText.data(using: .utf8)
+        guard let textFile = data else { return }
+        //パスに内容を書き込む
+        do {
+            try textFile.write(to: textPath)
+            print("書き込みに成功した")
+        } catch let error {
+            print("書き込みに失敗した\(error)")
+        }
+    }
 }
 
 
