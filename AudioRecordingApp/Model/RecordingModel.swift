@@ -83,15 +83,23 @@ struct RecordingModel {
             print("書き込みに失敗した\(error)")
         }
     }
-    
-    //Documents/Draftフォルダに「新規作成n」(nはファイルの最大数+1)ファイルを追加する関数
-    func addFileToDraftFolder() {
+    //新規作成nを作成する関数
+    func namingFile() -> String? {
         var numberOfFiles = 0
         var fileName = "新規作成"
-        guard let number = countingFiles("Draft") else { return }
+        guard let number = countingFiles("Draft") else { return nil }
         numberOfFiles = number
         fileName = fileName + String(numberOfFiles+1)
+        return fileName
+    }
+    
+    //Documents/Draftフォルダに「新規作成n」(nはファイルの最大数+1)ファイルを追加し、そこまでのURLを返す関数
+    func addFileToDraftFolder() -> URL? {
+        guard let fileName = namingFile() else { return nil }
+        let documentDirectoryFileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         addfileToFolder("Draft", fileName)
+        let url = documentDirectoryFileURL.appendingPathComponent(fileName)
+        return url
     }
 }
 
