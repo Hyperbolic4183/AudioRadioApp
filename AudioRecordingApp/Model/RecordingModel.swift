@@ -50,7 +50,7 @@ struct RecordingModel {
         }
     }
     //Documents/folderNameに含まれるファイルの数を返す関数
-    func countFiles(_ folderName: String) -> Int? {
+    func countingFiles(_ folderName: String) -> Int? {
         var pathString = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
         pathString = pathString + "/" + folderName
         do {
@@ -60,7 +60,7 @@ struct RecordingModel {
             return nil
         }
     }
-
+    //フォルダ名とファイル名を指定し、Documetnsフォルダに新たに追加する関数
     func addfileToFolder(_ folderName: String, _ fileName: String) {
         var pathString = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
         //フォルダを追加する
@@ -71,7 +71,6 @@ struct RecordingModel {
         //保存するファイルを用意する
         let fileName = "\(fileName).txt"
         let textPath = path.appendingPathComponent(fileName)
-
         //内容を用意する
         let testText = "This is a pen"
         let data: Data? = testText.data(using: .utf8)
@@ -83,6 +82,16 @@ struct RecordingModel {
         } catch let error {
             print("書き込みに失敗した\(error)")
         }
+    }
+    
+    //Documents/Draftフォルダに「新規作成n」(nはファイルの最大数+1)ファイルを追加する関数
+    func addFileToDraftFolder() {
+        var numberOfFiles = 0
+        var fileName = "新規作成"
+        guard let number = countingFiles("Draft") else { return }
+        numberOfFiles = number
+        fileName = fileName + String(numberOfFiles+1)
+        addfileToFolder("Draft", fileName)
     }
 }
 
