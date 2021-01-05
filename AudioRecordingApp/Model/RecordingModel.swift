@@ -8,7 +8,7 @@
 import UIKit
 import AVFoundation
 
-struct RecordingModel {
+class RecordingModel: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate{
     var audioRecoder: AVAudioRecorder!
     var audioPlayer: AVAudioPlayer!
     
@@ -38,6 +38,7 @@ struct RecordingModel {
     }
     
     func record() {
+        print("record")
         var audioRecoder = AVAudioRecorder()
         let settings = [
             AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
@@ -48,9 +49,12 @@ struct RecordingModel {
         guard let url = addFileToDraftFolder() else { return }
         do {
             audioRecoder = try AVAudioRecorder(url: url, settings: settings)
+            print("avaudioRecoderのインスタンス化に成功")
+            print("audioRecoderは\(audioRecoder)です")
         } catch {
             print("AVAudioRecoderのインスタンス化に失敗\(error)")
         }
+        audioRecoder.delegate = self
         audioRecoder.record()
     }
     
@@ -111,10 +115,15 @@ struct RecordingModel {
     
     //Documents/Draftフォルダに「新規作成n」(nはファイルの最大数+1)ファイルを追加し、そこまでのURLを返す関数
     func addFileToDraftFolder() -> URL? {
+        //DocumentsにDraftフォルダを追加
+        addFolder("Draft")
+        //Draftファイルに格納されているファイルの数をもとに名前を設定
         guard let fileName = namingFile() else { return nil }
+        //Documentsまでのパスを取得
         let documentDirectoryFileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        addfileToFolder("Draft", fileName)
-        let url = documentDirectoryFileURL.appendingPathComponent(fileName)
+        //addfileToFolder("Draft", fileName)
+        let url = documentDirectoryFileURL.appendingPathComponent("Draft").appendingPathComponent(fileName)
+        print("urlは\(url)です")
         return url
     }
 }
