@@ -11,6 +11,7 @@ import AVFoundation
 class RecordingModel: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate{
     var audioRecoder: AVAudioRecorder!
     var audioPlayer: AVAudioPlayer!
+    var lastPathComponent: String!
     
     func audioSession() {
         let audioSession = AVAudioSession.sharedInstance()
@@ -56,8 +57,14 @@ class RecordingModel: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate{
         }
         audioRecoder.delegate = self
         audioRecoder.record()
+        lastPathComponent = url.lastPathComponent
     }
     
+    func stop() {
+        print("stop")
+        let audioRecoder = AVAudioRecorder()
+        audioRecoder.stop()
+    }
     //Documetnsの先にフォルダを作成する関数
     func addFolder(_ folderName: String) {
         let fileManager = FileManager.default
@@ -68,6 +75,21 @@ class RecordingModel: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate{
         } catch {
             print("失敗した")
         }
+    }
+    
+    func add() {
+        addFolder("AudioFile")
+        let fileManager = FileManager.default
+        let documentDirectoryFileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let atPath = documentDirectoryFileURL.appendingPathComponent("Draft").appendingPathComponent(lastPathComponent)
+        let toPath = documentDirectoryFileURL.appendingPathComponent("AudioFile").appendingPathComponent(lastPathComponent)
+        do {
+            try fileManager.moveItem(at: atPath, to: toPath)
+            print("ファイルの移動に成功")
+        } catch {
+            print("ファイルの移動に失敗\(error)")
+        }
+        
     }
     //Documents/folderNameに含まれるファイルの数を返す関数
     func countingFiles(_ folderName: String) -> Int? {

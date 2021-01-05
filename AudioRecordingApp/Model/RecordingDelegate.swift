@@ -10,4 +10,5 @@ import Foundation
 protocol RecordingViewDelegate: class {
     func recording()
     func stop()
+    func add()
 }
