@@ -11,14 +11,19 @@ import SnapKit
 
 
 class RecordingView: UIView {
+    let windowRect = UIScreen.main.bounds
     let recordingButton = UIButton()
-    let titleTextfield = UITextField()
+    let pauseButton = UIButton()
+    let stopButton = UIButton()
+    
     weak var delegate: RecordingViewDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.backgroundColor = .white
         setupRecordingButton()
-        setupRecordingTitleTextfield()
+        setupPauseButton()
+        setupStopButton()
     }
     
     required init?(coder: NSCoder) {
@@ -27,13 +32,12 @@ class RecordingView: UIView {
     
     
     private func setupRecordingButton() {
-        
         recordingButton.setTitleColor(.black, for: .normal)
         recordingButton.setTitle("録音する", for: .normal)
         recordingButton.setTitleColor(.white, for: .normal)
         recordingButton.backgroundColor(.red, for: .normal)
         
-        recordingButton.setTitle("停止する", for: .selected)
+        recordingButton.setTitle("録音中", for: .selected)
         recordingButton.setTitleColor(.black, for: .selected)
         recordingButton.backgroundColor(.yellow, for: .selected)
         
@@ -41,13 +45,42 @@ class RecordingView: UIView {
         recordingButton.layer.cornerRadius = 50
         
         recordingButton.addTarget(self, action: #selector(recordButtonTapped), for: .touchDown)
+        let size = recordingButton.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
         addSubview(recordingButton)
         recordingButton.snp.makeConstraints {
             $0.center.equalToSuperview()
-            $0.width.equalTo(100)
-            $0.height.equalTo(100)
+            $0.width.equalTo(size.width)
+            $0.height.equalTo(size.height)
         }
         print("recordingButtonの状態は\(recordingButton.isSelected)")
+    }
+    
+    private func setupPauseButton() {
+        pauseButton.isHidden = true
+        pauseButton.setTitle("一時停止", for: .normal)
+        let size = pauseButton.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
+        pauseButton.backgroundColor = .red
+        addSubview(pauseButton)
+        pauseButton.snp.makeConstraints {
+            $0.width.equalTo(size.width)
+            $0.height.equalTo(size.height)
+            $0.centerX.equalToSuperview().offset(-windowRect.width/4)
+            $0.centerY.equalToSuperview().offset(windowRect.height/4)
+        }
+    }
+    
+    private func setupStopButton() {
+        stopButton.isHidden = true
+        stopButton.setTitle("停止", for: .normal)
+        let size: CGSize = stopButton.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
+        stopButton.backgroundColor = .cyan
+        addSubview(stopButton)
+        stopButton.snp.makeConstraints {
+            $0.width.equalTo(size.width)
+            $0.height.equalTo(size.height)
+            $0.centerX.equalToSuperview().offset(windowRect.width/4)
+            $0.centerY.equalToSuperview().offset(windowRect.height/4)
+        }
     }
     
     @objc func recordButtonTapped() {
@@ -57,16 +90,12 @@ class RecordingView: UIView {
             delegate?.recording()
         }
         recordingButton.isSelected = !recordingButton.isSelected
+        stopButton.isHidden = false
+        pauseButton.isHidden = false
     }
     
-    private func setupRecordingTitleTextfield() {
-        titleTextfield.placeholder = "タイトルを入力してください"
-        addSubview(titleTextfield)
-        titleTextfield.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.bottom.equalTo(recordingButton.snp.top)
-        }
-        
+    @objc func recordAddButtonTapped() {
+        delegate?.add()
     }
 }
 
