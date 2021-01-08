@@ -12,6 +12,7 @@ class RecordingModel: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate{
     var audioRecoder: AVAudioRecorder!
     var audioPlayer: AVAudioPlayer!
     var lastPathComponent: String!
+    var fileManagerOperate = FileManagerOperate()
     
     func audioSession() {
         let audioSession = AVAudioSession.sharedInstance()
@@ -38,16 +39,15 @@ class RecordingModel: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate{
         }
     }
     
-    func record() {
-        print("record")
-        var audioRecoder = AVAudioRecorder()
+    func start() {
+        print("start")
         let settings = [
             AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
             AVSampleRateKey: 44100,
             AVNumberOfChannelsKey: 2,
             AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
         ]
-        guard let url = addFileToDraftFolder() else { return }
+        guard let url = fileManagerOperate.addFileToDraftFolder() else { return }
         do {
             audioRecoder = try AVAudioRecorder(url: url, settings: settings)
             print("avaudioRecoderのインスタンス化に成功")
@@ -60,25 +60,23 @@ class RecordingModel: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate{
         lastPathComponent = url.lastPathComponent
     }
     
+    func pause() {
+        print("pause")
+        audioRecoder.pause()
+    }
+    
+    func restart() {
+        print("restart")
+        audioRecoder.record()
+    }
+    
     func stop() {
         print("stop")
-        let audioRecoder = AVAudioRecorder()
         audioRecoder.stop()
-    }
-    //Documetnsの先にフォルダを作成する関数
-    func addFolder(_ folderName: String) {
-        let fileManager = FileManager.default
-        let documentDirectoryFileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let directory = documentDirectoryFileURL.appendingPathComponent(folderName, isDirectory: true)
-        do {
-            try fileManager.createDirectory(at: directory, withIntermediateDirectories: true, attributes: nil)
-        } catch {
-            print("失敗した")
-        }
     }
     
     func add() {
-        addFolder("AudioFile")
+        fileManagerOperate.addFolder("AudioFile")
         let fileManager = FileManager.default
         let documentDirectoryFileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         let atPath = documentDirectoryFileURL.appendingPathComponent("Draft").appendingPathComponent(lastPathComponent)
@@ -91,6 +89,24 @@ class RecordingModel: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate{
         }
         
     }
+    
+}
+
+
+
+class FileManagerOperate {
+    //Documetnsの先にフォルダを作成する関数
+    func addFolder(_ folderName: String) {
+        let fileManager = FileManager.default
+        let documentDirectoryFileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let directory = documentDirectoryFileURL.appendingPathComponent(folderName, isDirectory: true)
+        do {
+            try fileManager.createDirectory(at: directory, withIntermediateDirectories: true, attributes: nil)
+        } catch {
+            print("失敗した")
+        }
+    }
+    
     //Documents/folderNameに含まれるファイルの数を返す関数
     func countingFiles(_ folderName: String) -> Int? {
         var pathString = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
@@ -149,6 +165,3 @@ class RecordingModel: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate{
         return url
     }
 }
-
-
-
