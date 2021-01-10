@@ -18,9 +18,9 @@ class AudioListTableViewController: UITableViewController {
     }
     
     @objc func addBarButtonTapped() {
-        let recordingVC = RecordingVieweController()
+        let recordingVC = RecordingViewController()
+        recordingVC.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+        recordingVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
         self.navigationController?.pushViewController(recordingVC, animated: true)
     }
-    
-    
 }

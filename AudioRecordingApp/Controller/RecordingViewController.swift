@@ -39,7 +39,6 @@ extension RecordingViewController: RecordingViewDelegate {
     
     func restart() {
         model.restart()
-        
     }
     
     func stop() {
@@ -47,9 +46,9 @@ extension RecordingViewController: RecordingViewDelegate {
         view = draftView
     }
     
-    func add() {
-        model.add()
-        self.navigationController?.popViewController(animated: true)
+    func save() {
+        model.save()
+        self.dismiss(animated: true, completion: nil)
     }
     
     func dismiss() {

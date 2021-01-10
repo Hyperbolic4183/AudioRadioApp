@@ -152,10 +152,6 @@ class RecordingView: UIView {
         delegate?.start()
     }
     
-    @objc func recordAddButtonTapped() {
-        delegate?.add()
-    }
-    
     @objc func pauseButtonTapped() {
         pauseButton.isHidden = true
         restartButton.isHidden = false
