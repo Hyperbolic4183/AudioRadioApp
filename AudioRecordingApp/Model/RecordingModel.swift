@@ -9,20 +9,22 @@ import UIKit
 import AVFoundation
 
 class RecordingModel: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate{
+    
+    let audioSession = AVAudioSession.sharedInstance()
     var audioRecoder: AVAudioRecorder!
     var audioPlayer: AVAudioPlayer!
     var lastPathComponent: String!
     var fileManagerOperate = FileManagerOperate()
+    var audioURL: URL?
     
-    func audioSession() {
-        let audioSession = AVAudioSession.sharedInstance()
+    func requestRecord() {
         //許可を求めるアラートを表示する
         audioSession.requestRecordPermission { granted in
             if granted {
                 print("許可した")
                 do {
                     //audioSessionのカテゴリを設定
-                    try audioSession.setCategory(.record, mode: .default, options: [])
+                    try self.audioSession.setCategory(.record, mode: .default, options: [])
                 } catch {
                     print("audioSessionがカテゴリのセットに失敗した")
                 }
@@ -39,7 +41,17 @@ class RecordingModel: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate{
         }
     }
     
+    func changeCategoryToPlay() {
+        do {
+            try audioSession.setCategory(.playback, mode: .default, options: [])
+        } catch {
+            print("setCategoryに失敗した\(error)")
+        }
+    }
+    
+    
     func start() {
+        requestRecord()
         print("start")
         let settings = [
             AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
@@ -48,6 +60,8 @@ class RecordingModel: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate{
             AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
         ]
         guard let url = fileManagerOperate.addFileToDraftFolder() else { return }
+        print("urlは\(url) from start()")
+        audioURL = url
         do {
             audioRecoder = try AVAudioRecorder(url: url, settings: settings)
             print("avaudioRecoderのインスタンス化に成功")
@@ -67,12 +81,18 @@ class RecordingModel: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate{
     
     func restart() {
         print("restart")
-        audioRecoder.record()
+        //audioRecoder.record()
     }
     
     func stop() {
         print("stop")
         audioRecoder.stop()
+        do {
+            try audioSession.setActive(false)
+            print("setAvtiveに成功した")
+        } catch {
+            print("setActiveに失敗した\(error)")
+        }
     }
     
     func add() {
@@ -86,6 +106,19 @@ class RecordingModel: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate{
             print("ファイルの移動に成功")
         } catch {
             print("ファイルの移動に失敗\(error)")
+        }
+    }
+    
+    func play() {
+        print("play")
+        changeCategoryToPlay()
+        guard let url = audioURL else { return }
+        print("urlは\(url) from play()")
+        do {
+            try audioPlayer = AVAudioPlayer(contentsOf: url)
+            audioPlayer.play()
+        } catch {
+            print("AVAudioPlayerのインスタンス化失敗した\(error)")
         }
         
     }
@@ -147,7 +180,7 @@ class FileManagerOperate {
         var fileName = "新規作成"
         guard let number = countingFiles("Draft") else { return nil }
         numberOfFiles = number
-        fileName = fileName + String(numberOfFiles+1)
+        fileName = fileName + String(numberOfFiles+1) + ".m4a"
         return fileName
     }
     

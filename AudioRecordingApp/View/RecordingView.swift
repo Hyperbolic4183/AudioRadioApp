@@ -16,6 +16,7 @@ class RecordingView: UIView {
     let pauseButton = UIButton()
     let restartButton = UIButton()
     let stopButton = UIButton()
+    let endButton = UIButton()
     let side = 130
     
     weak var delegate: RecordingViewDelegate?
@@ -27,6 +28,7 @@ class RecordingView: UIView {
         setupPauseButton()
         setupRestartButton()
         setupStopButton()
+        setupEndButton()
     }
     
     required init?(coder: NSCoder) {
@@ -47,14 +49,13 @@ class RecordingView: UIView {
         startButton.imageEdgeInsets = UIEdgeInsets(top: -size.height/2-SizeOfImageView.height/2, left: 0, bottom: 0, right: -size.width)
         startButton.titleEdgeInsets = UIEdgeInsets(top: size.height/2+SizeOfImageView.height/2, left: -SizeOfImageView.width, bottom: 0, right: 0)
         addSubview(startButton)
-        let side = size.width+50
         startButton.snp.makeConstraints {
             $0.center.equalToSuperview()
             $0.width.equalTo(side)
             $0.height.equalTo(side)
         }
         self.startButton.layer.masksToBounds = true
-        self.startButton.layer.cornerRadius = (side)/2
+        self.startButton.layer.cornerRadius = CGFloat((side)/2)
         //print(side)124
     }
     
@@ -127,6 +128,24 @@ class RecordingView: UIView {
         stopButton.layer.masksToBounds = true
     }
     
+    private func setupEndButton() {
+        let image = UIImage(systemName: "xmark", withConfiguration: UIImage.SymbolConfiguration(pointSize: 30, weight: .light, scale: .default))?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        endButton.setImage(image, for: .normal)
+        endButton.addTarget(self, action: #selector(endButtonTapped), for: .touchDown)
+        let size = endButton.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
+        addSubview(endButton)
+        endButton.snp.makeConstraints {
+            $0.width.equalTo(size.width)
+            $0.height.equalTo(size.height)
+            $0.left.equalToSuperview().offset(30)
+            if #available(iOS 11, *) {
+                $0.top.equalTo(safeAreaLayoutGuide.snp.top).offset(20)
+            } else {
+                $0.top.equalToSuperview().offset(20)
+            }
+        }
+    }
+    
     @objc func startButtonTapped() {
         startButton.isHidden = true
         pauseButton.isHidden = false
@@ -158,6 +177,10 @@ class RecordingView: UIView {
             stopButton.isHidden = true
             startButton.isHidden = false
         }
+    }
+    
+    @objc func endButtonTapped() {
+        delegate?.dismiss()
     }
 }
 
