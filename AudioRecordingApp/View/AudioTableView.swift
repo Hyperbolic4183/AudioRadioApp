@@ -8,9 +8,14 @@
 import UIKit
 import RealmSwift
 
-class AudioTableView: UITableView {
+protocol AudioTableViewDelegate: class {
+    func didSelectedRow()
+}
+
+class AudioTableView: UITableView{
     var realm: Realm?
     var audioArray: Results<PlayingModel>?
+    weak var audioTableViewDelegate: AudioTableViewDelegate?
     
     override init(frame: CGRect, style: UITableView.Style) {
         print("init")
@@ -62,5 +67,10 @@ extension AudioTableView: UITableViewDelegate, UITableViewDataSource {
         
         cell.textLabel?.text = audio.title
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(indexPath)
+        audioTableViewDelegate?.didSelectedRow()
     }
 }

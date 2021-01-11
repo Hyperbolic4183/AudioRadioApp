@@ -10,6 +10,7 @@ import SnapKit
 
 protocol MainViewDelegate: class {
     func plusButtonTapped()
+    func didSelectedRow()
 }
 
 class MainView: UIView {
@@ -20,6 +21,7 @@ class MainView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        audioTableView.audioTableViewDelegate = self
         seutpAudioTableView()
         setupAddButton()
     }
@@ -55,5 +57,12 @@ class MainView: UIView {
     
     @objc func plusButtonTapped() {
         delegate?.plusButtonTapped()
+    }
+}
+
+extension MainView:AudioTableViewDelegate {
+    func didSelectedRow() {
+        print("didSelectedRow from MainVC")
+        delegate?.didSelectedRow()
     }
 }

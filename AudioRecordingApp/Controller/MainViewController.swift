@@ -10,7 +10,8 @@ import UIKit
 class MainViewController: UIViewController {
 
     private(set) var mainview = MainView()
-    
+    private(set) var audioTableView = AudioTableView()
+ 
     override func loadView() {
         view = mainview
     }
@@ -28,6 +29,12 @@ class MainViewController: UIViewController {
 }
 
 extension MainViewController: MainViewDelegate {
+    func didSelectedRow() {
+        let playingVC = PlayingViewController()
+        self.navigationController?.pushViewController(playingVC, animated: true)
+    }
+    
+    
     func plusButtonTapped() {
         print("plusButtonTapped")
         let recordingVC = RecordingViewController()
@@ -36,3 +43,5 @@ extension MainViewController: MainViewDelegate {
         present(recordingVC, animated: true, completion: nil)
     }
 }
+
+
