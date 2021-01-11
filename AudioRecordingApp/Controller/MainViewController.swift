@@ -18,6 +18,12 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         mainview.delegate = self
+        navigationItem.title = "オーディオ一覧"
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        print("viewWillAppear")
+        mainview.audioTableView.reloadData()
     }
 }
 

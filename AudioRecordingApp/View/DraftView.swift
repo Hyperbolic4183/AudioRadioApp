@@ -119,7 +119,9 @@ class DraftView: UIView {
     
     @objc func saveButtonTapped() {
         print("saveButtonTapped")
-        delegate?.save()
+        delegate?.save(title: titleTextField.text ?? "新規作成")
+        print("入力されたタイトルは\(titleTextField.text)")
+        //テキストを渡す
     }
 }
 

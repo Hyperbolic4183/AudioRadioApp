@@ -8,7 +8,11 @@
 import Foundation
 
 protocol RecordingViewDelegate: class {
-    func recording()
+    func start()
     func stop()
-    func add()
+    func pause()
+    func restart()
+    func save(title: String)
+    func dismiss()
+    func play()
 }

@@ -46,8 +46,8 @@ extension RecordingViewController: RecordingViewDelegate {
         view = draftView
     }
     
-    func save() {
-        model.save()
+    func save(title: String) {
+        model.save(title: title)
         self.dismiss(animated: true, completion: nil)
     }
     
