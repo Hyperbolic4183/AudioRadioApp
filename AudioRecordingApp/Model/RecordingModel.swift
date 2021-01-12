@@ -17,9 +17,7 @@ class RecordingModel: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate{
     var lastPathComponent: String!
     var fileManagerOperate = FileManagerOperate()
     var audioURL: URL?
-    
-    
-    
+
     func requestRecord() {
         //許可を求めるアラートを表示する
         audioSession.requestRecordPermission { granted in
@@ -51,7 +49,6 @@ class RecordingModel: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate{
             print("setCategoryに失敗した\(error)")
         }
     }
-    
     
     func start() {
         requestRecord()
@@ -136,6 +133,32 @@ class RecordingModel: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate{
         let realm = try! Realm()
         try! realm.write {
             realm.add(audio)
+        }
+    }
+}
+
+class OperationOfPlayback {
+    let fileManager = FileManager.default
+    let audioSession = AVAudioSession.sharedInstance()
+    var audioPlayer: AVAudioPlayer!
+    
+    func changeCategoryToPlay() {
+        do {
+            try audioSession.setCategory(.playback, mode: .default, options: [])
+        } catch {
+            print("setCategoryに失敗した\(error)")
+        }
+    }
+    
+    func play(audioName: String) {
+        print("play")
+        let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("AudioFile").appendingPathComponent(audioName)
+        print("urlは\(url) from play()")
+        do {
+            try audioPlayer = AVAudioPlayer(contentsOf: url)
+            audioPlayer.play()
+        } catch {
+            print("AVAudioPlayerのインスタンス化失敗した\(error)")
         }
     }
 }

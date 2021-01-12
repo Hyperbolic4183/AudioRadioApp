@@ -29,8 +29,9 @@ class MainViewController: UIViewController {
 }
 
 extension MainViewController: MainViewDelegate {
-    func didSelectedRow() {
-        let playingVC = PlayingViewController()
+    func didSelectedRow(title: String, audioPath: String) {
+        let arr = mainview.audioTableView.audioArray
+        let playingVC = PlayingViewController(audioTitle: title, audioPath: audioPath)
         self.navigationController?.pushViewController(playingVC, animated: true)
     }
     

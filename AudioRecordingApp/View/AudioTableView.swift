@@ -9,7 +9,7 @@ import UIKit
 import RealmSwift
 
 protocol AudioTableViewDelegate: class {
-    func didSelectedRow()
+    func didSelectedRow(title: String, audioPath: String)
 }
 
 class AudioTableView: UITableView{
@@ -54,11 +54,7 @@ class AudioTableView: UITableView{
 
 extension AudioTableView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let count = audioArray?.count {
-            return count
-        } else {
-            return 0
-        }
+        return audioArray?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -71,6 +67,9 @@ extension AudioTableView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(indexPath)
-        audioTableViewDelegate?.didSelectedRow()
+        let playingModel = audioArray?[indexPath.row] ?? PlayingModel()
+        let title = playingModel.title
+        let path = playingModel.path
+        audioTableViewDelegate?.didSelectedRow(title: title, audioPath: path)
     }
 }

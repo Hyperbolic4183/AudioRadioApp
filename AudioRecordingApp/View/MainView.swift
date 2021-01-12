@@ -10,7 +10,7 @@ import SnapKit
 
 protocol MainViewDelegate: class {
     func plusButtonTapped()
-    func didSelectedRow()
+    func didSelectedRow(title: String, audioPath: String)
 }
 
 class MainView: UIView {
@@ -61,8 +61,8 @@ class MainView: UIView {
 }
 
 extension MainView:AudioTableViewDelegate {
-    func didSelectedRow() {
+    func didSelectedRow(title: String, audioPath: String) {
         print("didSelectedRow from MainVC")
-        delegate?.didSelectedRow()
+        delegate?.didSelectedRow(title: title, audioPath: audioPath)
     }
 }
