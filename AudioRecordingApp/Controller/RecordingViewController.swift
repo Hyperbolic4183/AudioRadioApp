@@ -18,7 +18,7 @@ class RecordingViewController: UIViewController {
     }
     
     // ----------Modelの設定----------
-    var model = RecordingModel()
+    var model = OperationOfRecord()
     
     override func viewDidLoad() {
         recordingView.delegate = self

@@ -9,7 +9,7 @@ import UIKit
 import AVFoundation
 import RealmSwift
 
-class RecordingModel: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate{
+class OperationOfRecord: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate{
     
     let audioSession = AVAudioSession.sharedInstance()
     var audioRecoder: AVAudioRecorder!
@@ -137,28 +137,4 @@ class RecordingModel: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate{
     }
 }
 
-class OperationOfPlayback {
-    let fileManager = FileManager.default
-    let audioSession = AVAudioSession.sharedInstance()
-    var audioPlayer: AVAudioPlayer!
-    
-    func changeCategoryToPlay() {
-        do {
-            try audioSession.setCategory(.playback, mode: .default, options: [])
-        } catch {
-            print("setCategoryに失敗した\(error)")
-        }
-    }
-    
-    func play(audioName: String) {
-        print("play")
-        let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("AudioFile").appendingPathComponent(audioName)
-        print("urlは\(url) from play()")
-        do {
-            try audioPlayer = AVAudioPlayer(contentsOf: url)
-            audioPlayer.play()
-        } catch {
-            print("AVAudioPlayerのインスタンス化失敗した\(error)")
-        }
-    }
-}
+
