@@ -16,7 +16,10 @@ class RecordingView: UIView {
     let restartButton = UIButton()
     let stopButton = UIButton()
     let endButton = UIButton()
+    let timerLabel = UILabel()
     let side = 130
+    var counter = -1
+    var timer: Timer!
     
     weak var recordingDelegate: RecordingViewDelegate?
     weak var audioRequestDelegate: AudioRequestDelegate?
@@ -29,19 +32,20 @@ class RecordingView: UIView {
         setupRestartButton()
         setupStopButton()
         setupEndButton()
+        setupTimerLabel()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
+        
     private func setupStartButton() {
         let image = UIImage(systemName: "mic", withConfiguration: UIImage.SymbolConfiguration(pointSize: 30, weight: .light, scale: .default))?.withTintColor(.black, renderingMode: .alwaysOriginal)
         let imageView = UIImageView(image: image)
         let SizeOfImageView = imageView.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
         startButton.setTitleColor(.black, for: .normal)
         startButton.setTitle("収録開始", for: .normal)
+        startButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
         startButton.backgroundColor = .white
         startButton.addTarget(self, action: #selector(startButtonTapped), for: .touchDown)
         let size = startButton.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
@@ -60,11 +64,12 @@ class RecordingView: UIView {
     }
     
     private func setupPauseButton() {
-        let image = UIImage(systemName: "pause", withConfiguration: UIImage.SymbolConfiguration(pointSize: 30, weight: .light))?.withTintColor(.black, renderingMode: .alwaysOriginal)
+        let image = UIImage(systemName: "pause", withConfiguration: UIImage.SymbolConfiguration(pointSize: 30, weight: .bold))?.withTintColor(.black, renderingMode: .alwaysOriginal)
         let imageView = UIImageView(image: image)
         let sizeOfImageView = imageView.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
         pauseButton.isHidden = true
         pauseButton.setTitle("一時停止する", for: .normal)
+        pauseButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
         pauseButton.setTitleColor(.black, for: .normal)
         pauseButton.backgroundColor = .white
         pauseButton.addTarget(self, action: #selector(pauseButtonTapped), for: .touchDown)
@@ -83,11 +88,12 @@ class RecordingView: UIView {
     }
     
     private func setupRestartButton() {
-        let image = UIImage(systemName: "play", withConfiguration: UIImage.SymbolConfiguration(pointSize: 30, weight: .light))?.withTintColor(.black,renderingMode: .alwaysOriginal)
+        let image = UIImage(systemName: "play", withConfiguration: UIImage.SymbolConfiguration(pointSize: 30, weight: .bold))?.withTintColor(.black,renderingMode: .alwaysOriginal)
         let imageView = UIImageView(image: image)
         let sizeOfImageView = imageView.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
         restartButton.isHidden = true
         restartButton.setTitle("再開する", for: .normal)
+        restartButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
         restartButton.setTitleColor(.black, for: .normal)
         restartButton.backgroundColor = .white
         restartButton.addTarget(self, action: #selector(restartButtonTapped), for: .touchDown)
@@ -111,6 +117,7 @@ class RecordingView: UIView {
         let sizeOfImageView = imageView.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
         stopButton.isHidden = true
         stopButton.setTitle("停止する", for: .normal)
+        stopButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
         stopButton.backgroundColor = .orange
         stopButton.addTarget(self, action: #selector(stopButtonTapped), for: .touchDown)
         let size = stopButton.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
@@ -119,12 +126,12 @@ class RecordingView: UIView {
         stopButton.titleEdgeInsets = UIEdgeInsets(top: size.height/2+sizeOfImageView.height/2, left: -sizeOfImageView.width, bottom: 0, right: 0)
         addSubview(stopButton)
         stopButton.snp.makeConstraints {
-            $0.width.equalTo(side)
-            $0.height.equalTo(side)
-            $0.left.equalTo(restartButton.snp.right)
-            $0.centerY.equalToSuperview()
+            $0.width.equalTo(100)
+            $0.height.equalTo(100)
+            $0.centerX.equalTo(restartButton.snp.right)
+            $0.centerY.equalTo(restartButton.snp.bottom)
         }
-        stopButton.layer.cornerRadius = CGFloat(side/2)
+        stopButton.layer.cornerRadius = CGFloat(50)
         stopButton.layer.masksToBounds = true
     }
     
@@ -146,12 +153,29 @@ class RecordingView: UIView {
         }
     }
     
+    private func setupTimerLabel() {
+        timerLabel.isHidden = true
+        timerLabel.font = UIFont.systemFont(ofSize: 25)
+        timerLabel.textAlignment = .center
+        addSubview(timerLabel)
+        
+        timerLabel.snp.makeConstraints {
+            $0.width.equalTo(100)
+            $0.height.equalTo(40)
+            $0.bottom.equalTo(startButton.snp.top).offset(-20)
+            $0.centerX.equalToSuperview()
+        }
+    }
+    
     @objc func startButtonTapped() {
         let status = AVCaptureDevice.authorizationStatus(for: AVMediaType.audio)
         if status == AVAuthorizationStatus.authorized {
             startButton.isHidden = true
             pauseButton.isHidden = false
+            timerLabel.isHidden = false
             recordingDelegate?.start()
+            self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(timerStarted), userInfo: nil, repeats: true)
+            
         } else if status == AVAuthorizationStatus.restricted {
             audioRequestDelegate?.showPermissionChangeAlert()
         } else if status == AVAuthorizationStatus.notDetermined {
@@ -166,6 +190,7 @@ class RecordingView: UIView {
         restartButton.isHidden = false
         stopButton.isHidden = false
         recordingDelegate?.pause()
+        self.timer.invalidate()
     }
     
     @objc func restartButtonTapped() {
@@ -173,6 +198,7 @@ class RecordingView: UIView {
         restartButton.isHidden = true
         pauseButton.isHidden = false
         recordingDelegate?.restart()
+        self.timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(timerStarted), userInfo: nil, repeats: true)
     }
     
     @objc func stopButtonTapped() {
@@ -187,6 +213,13 @@ class RecordingView: UIView {
     @objc func endButtonTapped() {
         recordingDelegate?.dismiss()
     }
+    
+    @objc func timerStarted() {
+        let int = Int()
+        counter += 1
+        timerLabel.text = "\(int.time(second: counter))"
+    }
 }
+
 
 
