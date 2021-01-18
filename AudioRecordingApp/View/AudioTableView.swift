@@ -23,8 +23,9 @@ class AudioTableView: UITableView{
         autoresizingMask = [.flexibleWidth, .flexibleHeight]
         delegate = self
         dataSource = self
-        register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        backgroundColor = .white
+        register(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
+        backgroundColor = UIColor(15,53,74)
+        separatorColor = .clear
         setupRealm()
     }
     
@@ -44,7 +45,7 @@ class AudioTableView: UITableView{
     
     private func setupAudioArray() {
         do {
-            audioArray = try Realm().objects(PlayingModel.self)
+            audioArray = try Realm().objects(PlayingModel.self).sorted(byKeyPath: "date", ascending: false)
             print("audioArrayへのオブジェクトの代入に成功")
         } catch {
             print("audioArrayへのオブジェクトの代入に失敗")
@@ -53,15 +54,19 @@ class AudioTableView: UITableView{
 }
 
 extension AudioTableView: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return audioArray?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomTableViewCell
         let audio: PlayingModel = audioArray?[indexPath.row] ?? PlayingModel()
-        
-        cell.textLabel?.text = audio.title
+        cell.titleLabel.text = audio.title
         return cell
     }
     
@@ -73,3 +78,4 @@ extension AudioTableView: UITableViewDelegate, UITableViewDataSource {
         audioTableViewDelegate?.didSelectedRow(title: title, audioPath: path)
     }
 }
+

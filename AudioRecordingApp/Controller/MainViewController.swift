@@ -20,6 +20,8 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
         mainview.delegate = self
         navigationItem.title = "オーディオ一覧"
+        navigationController?.navigationBar.barTintColor = UIColor(255, 189, 40)
+        navigationController?.navigationBar.tintColor = .black
     }
     
     override func viewWillAppear(_ animated: Bool) {

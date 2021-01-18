@@ -7,8 +7,7 @@
 
 import UIKit
 import SnapKit
-
-
+import AVFoundation
 
 class RecordingView: UIView {
     let windowRect = UIScreen.main.bounds
@@ -19,7 +18,8 @@ class RecordingView: UIView {
     let endButton = UIButton()
     let side = 130
     
-    weak var delegate: RecordingViewDelegate?
+    weak var recordingDelegate: RecordingViewDelegate?
+    weak var audioRequestDelegate: AudioRequestDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -147,27 +147,36 @@ class RecordingView: UIView {
     }
     
     @objc func startButtonTapped() {
-        startButton.isHidden = true
-        pauseButton.isHidden = false
-        delegate?.start()
+        let status = AVCaptureDevice.authorizationStatus(for: AVMediaType.audio)
+        if status == AVAuthorizationStatus.authorized {
+            startButton.isHidden = true
+            pauseButton.isHidden = false
+            recordingDelegate?.start()
+        } else if status == AVAuthorizationStatus.restricted {
+            audioRequestDelegate?.showPermissionChangeAlert()
+        } else if status == AVAuthorizationStatus.notDetermined {
+            audioRequestDelegate?.requestPermission()
+        } else if status == AVAuthorizationStatus.denied {
+            audioRequestDelegate?.showPermissionChangeAlert()
+        }
     }
     
     @objc func pauseButtonTapped() {
         pauseButton.isHidden = true
         restartButton.isHidden = false
         stopButton.isHidden = false
-        delegate?.pause()
+        recordingDelegate?.pause()
     }
     
     @objc func restartButtonTapped() {
         stopButton.isHidden = true
         restartButton.isHidden = true
         pauseButton.isHidden = false
-        delegate?.restart()
+        recordingDelegate?.restart()
     }
     
     @objc func stopButtonTapped() {
-        delegate?.stop()
+        recordingDelegate?.stop()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [self] in
             restartButton.isHidden = true
             stopButton.isHidden = true
@@ -176,7 +185,7 @@ class RecordingView: UIView {
     }
     
     @objc func endButtonTapped() {
-        delegate?.dismiss()
+        recordingDelegate?.dismiss()
     }
 }
 

@@ -10,20 +10,21 @@ import UIKit
 class CustomTableViewCell: UITableViewCell {
     let backView = UIView()
     let titleLabel = UILabel()
-    let dateLabel = UILabel()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUIView()
         setupcellLabel()
-        setupDateLabel()
     }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
+        print("setHighlighted")
+        
+    }
+    
     private func setupUIView() {
-        print("contentViewは\(contentView.frame)")
         backView.backgroundColor = UIColor(255,189,40)
         backView.layer.cornerRadius = 5
         addSubview(backView)
@@ -33,24 +34,27 @@ class CustomTableViewCell: UITableViewCell {
             $0.center.equalToSuperview()
         }
     }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print("touchesBegan")
+        super.touchesBegan(touches, with: event)
+        backView.backgroundColor = UIColor(233,201,54)
+    }
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
+        backView.backgroundColor = UIColor(255,189,40)
+    }
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesCancelled(touches, with: event)
+        backView.backgroundColor = UIColor(255,189,40)
+    }
+    
     private func setupcellLabel() {
-        titleLabel.text = "ssssあ"
-        let size = titleLabel.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
+        titleLabel.font = UIFont.systemFont(ofSize: 20)
         backView.addSubview(titleLabel)
         titleLabel.snp.makeConstraints {
-            $0.left.equalToSuperview()
+            $0.left.equalToSuperview().offset(50)
             $0.centerY.equalToSuperview()
-            $0.size.equalTo(size)
-        }
-    }
-    private func setupDateLabel() {
-        dateLabel.text = "あああああああああああ"
-        let size = dateLabel.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
-        backView.addSubview(dateLabel)
-        dateLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.left.equalTo(titleLabel.snp.right).offset(50)
-            $0.size.equalTo(size)
+            $0.width.equalToSuperview()
         }
     }
     
