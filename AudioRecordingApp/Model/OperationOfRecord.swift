@@ -9,8 +9,9 @@ import UIKit
 import AVFoundation
 import RealmSwift
 
-class OperationOfRecord: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate{
+class OperationOfRecord: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegate {
     
+    var recordPermisson = false
     let audioSession = AVAudioSession.sharedInstance()
     var audioRecoder: AVAudioRecorder!
     var audioPlayer: AVAudioPlayer!
@@ -30,19 +31,29 @@ class OperationOfRecord: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegat
                     print("audioSessionがカテゴリのセットに失敗した")
                 }
             } else {
+                
                 print("許可しなかった")
                 return
             }
         }
+    }
+    
+//        do {
+//            try audioSession.setActive(true)
+//        } catch {
+//            print("audioSessionのアクティブ可に失敗した")
+//            return
+//        }
+//    }
+    func setCategoryToRecord() {
         do {
-            try audioSession.setActive(true)
+            try audioSession.setCategory(.record, mode: .default, options: [])
         } catch {
-            print("audioSessionのアクティブ可に失敗した")
-            return
+            print("setCategoryに失敗した\(error)")
         }
     }
     
-    func changeCategoryToPlay() {
+    func setCategoryToPlayback() {
         do {
             try audioSession.setCategory(.playback, mode: .default, options: [])
         } catch {
@@ -51,7 +62,7 @@ class OperationOfRecord: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegat
     }
     
     func start() {
-        requestRecord()
+        setCategoryToRecord()
         print("start")
         let settings = [
             AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
@@ -102,9 +113,14 @@ class OperationOfRecord: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegat
         let documentDirectoryFileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         let atPath = documentDirectoryFileURL.appendingPathComponent("Draft").appendingPathComponent(lastPathComponent)
         let toPath = documentDirectoryFileURL.appendingPathComponent("AudioFile").appendingPathComponent(lastPathComponent)
+        
+        
+        let now = Date()
+        
+        
         do {
             try fileManager.moveItem(at: atPath, to: toPath)
-            realmWrite(title: title, path: lastPathComponent)
+            realmWrite(title: title, path: lastPathComponent, date: now)
             print("ファイルの移動に成功")
         } catch {
             print("ファイルの移動に失敗\(error)")
@@ -113,7 +129,7 @@ class OperationOfRecord: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegat
     
     func play() {
         print("play")
-        changeCategoryToPlay()
+        setCategoryToPlayback()
         guard let url = audioURL else { return }
         print("urlは\(url) from play()")
         do {
@@ -124,11 +140,13 @@ class OperationOfRecord: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegat
         }
     }
     
-    func realmWrite(title: String, path: String) {
+    func realmWrite(title: String, path: String, date: Date) {
         print("realmWrite")
+        
         let audio: PlayingModel = PlayingModel()
         audio.title = title
         audio.path = path
+        //audio.date = date
         print("pathは\(path)")
         let realm = try! Realm()
         try! realm.write {
@@ -136,5 +154,23 @@ class OperationOfRecord: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegat
         }
     }
 }
+
+
+class DateUtils {
+    class func dateFromString(string: String, format: String) -> Date {
+        let formatter: DateFormatter = DateFormatter()
+        formatter.calendar = Calendar(identifier: .gregorian)
+        formatter.dateFormat = format
+        return formatter.date(from: string)!
+    }
+
+    class func stringFromDate(date: Date, format: String) -> String {
+        let formatter: DateFormatter = DateFormatter()
+        formatter.calendar = Calendar(identifier: .gregorian)
+        formatter.dateFormat = format
+        return formatter.string(from: date)
+    }
+}
+
 
 

@@ -11,4 +11,5 @@ import RealmSwift
 class PlayingModel: Object {
     @objc dynamic var title = ""
     @objc dynamic var path = ""
+    @objc dynamic var date = Date()
 }
