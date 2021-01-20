@@ -18,7 +18,7 @@ class RecordingView: UIView {
     let endButton = UIButton()
     let timerLabel = UILabel()
     let side = 130
-    var counter = -1
+    var counter = 0
     var timer: Timer!
     
     weak var recordingDelegate: RecordingViewDelegate?

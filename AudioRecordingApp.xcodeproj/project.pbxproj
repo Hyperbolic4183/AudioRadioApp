@@ -19,7 +19,7 @@
 		47B315DE259F00F100981F01 /* RecordingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B315DD259F00F100981F01 /* RecordingView.swift */; };
 		47B3160C25A045C900981F01 /* OperationOfRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B3160B25A045C900981F01 /* OperationOfRecord.swift */; };
 		47B3160F25A09A9300981F01 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B3160E25A09A9300981F01 /* Extensions.swift */; };
-		47B3161225A09C3400981F01 /* RecordingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B3161125A09C3400981F01 /* RecordingDelegate.swift */; };
+		47B3161225A09C3400981F01 /* RecordingViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B3161125A09C3400981F01 /* RecordingViewDelegate.swift */; };
 		47B948D725B3119E005C799D /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B948D625B3119E005C799D /* CustomTableViewCell.swift */; };
 		47CDBBAF25B83EC7005ACE3B /* DraftPlayingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CDBBAE25B83EC7005ACE3B /* DraftPlayingDelegate.swift */; };
 		47DA655A25AAF59A00F6EF5E /* AudioTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DA655925AAF59A00F6EF5E /* AudioTableView.swift */; };
@@ -48,7 +48,7 @@
 		47B315DD259F00F100981F01 /* RecordingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingView.swift; sourceTree = "<group>"; };
 		47B3160B25A045C900981F01 /* OperationOfRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationOfRecord.swift; sourceTree = "<group>"; };
 		47B3160E25A09A9300981F01 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		47B3161125A09C3400981F01 /* RecordingDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingDelegate.swift; sourceTree = "<group>"; };
+		47B3161125A09C3400981F01 /* RecordingViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingViewDelegate.swift; sourceTree = "<group>"; };
 		47B948D625B3119E005C799D /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		47CDBBAE25B83EC7005ACE3B /* DraftPlayingDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraftPlayingDelegate.swift; sourceTree = "<group>"; };
 		47DA655925AAF59A00F6EF5E /* AudioTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioTableView.swift; sourceTree = "<group>"; };
@@ -133,17 +133,25 @@
 		47B315D2259EEEE900981F01 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				47CDBBB225B847E7005ACE3B /* Protocol */,
 				47B3160E25A09A9300981F01 /* Extensions.swift */,
-				470FF3F125B54E7C00FD2D6F /* AudioRequestDelegate.swift */,
-				47B3161125A09C3400981F01 /* RecordingDelegate.swift */,
-				470FF3FA25B79D8B00FD2D6F /* PlayingDelegate.swift */,
-				47CDBBAE25B83EC7005ACE3B /* DraftPlayingDelegate.swift */,
 				47DA657325AB3B7400F6EF5E /* FileManagerOperate.swift */,
 				47DA657C25AB476E00F6EF5E /* PlayingModel.swift */,
 				47B3160B25A045C900981F01 /* OperationOfRecord.swift */,
 				4740DF1425AD239E00A4FAEF /* OperationOfPlayback.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		47CDBBB225B847E7005ACE3B /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				47B3161125A09C3400981F01 /* RecordingViewDelegate.swift */,
+				470FF3FA25B79D8B00FD2D6F /* PlayingDelegate.swift */,
+				47CDBBAE25B83EC7005ACE3B /* DraftPlayingDelegate.swift */,
+				470FF3F125B54E7C00FD2D6F /* AudioRequestDelegate.swift */,
+			);
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 		557BB9599445115A871BF80F /* Pods */ = {
@@ -284,7 +292,7 @@
 				4740DF1525AD239E00A4FAEF /* OperationOfPlayback.swift in Sources */,
 				47DA657425AB3B7400F6EF5E /* FileManagerOperate.swift in Sources */,
 				47DA657725AB3C2800F6EF5E /* PlayingView.swift in Sources */,
-				47B3161225A09C3400981F01 /* RecordingDelegate.swift in Sources */,
+				47B3161225A09C3400981F01 /* RecordingViewDelegate.swift in Sources */,
 				470FF3F225B54E7C00FD2D6F /* AudioRequestDelegate.swift in Sources */,
 				47B948D725B3119E005C799D /* CustomTableViewCell.swift in Sources */,
 				47DA657A25AB410500F6EF5E /* PlayingViewController.swift in Sources */,
