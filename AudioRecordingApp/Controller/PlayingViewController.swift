@@ -22,9 +22,9 @@ class PlayingViewController: UIViewController {
             playingView.isPlaying.toggle()
             playingView.playButton.isHidden = false
             playingView.pauseButton .isHidden = true
+            playingView.playingslider.value = 0
         })
     }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -43,17 +43,17 @@ class PlayingViewController: UIViewController {
         
     }
     override func viewWillDisappear(_ animated: Bool) {
-        print("viewWillDisappear")
-        playbackModel?.pause()
         playbackModel?.audioPlayer = nil
+        NotificationCenter.default.removeObserver(self, name: .init(rawValue: "audioPlayerDidFinishPlaying"), object: nil)
     }
     
     func valueOfSliderChange() {
-        self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(tameHasPassed), userInfo: nil, repeats: true)
+        self.timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(tameHasPassed), userInfo: nil, repeats: true)
     }
     
     @objc func tameHasPassed() {
-        playingView.playingslider.value = Float(playbackModel?.audioPlayer?.currentTime ?? 0)
+        guard let currentTime = playbackModel?.audioPlayer?.currentTime, currentTime > 0 else { return }
+        playingView.playingslider.value = Float(currentTime)
     }
 }
 
@@ -71,14 +71,19 @@ extension PlayingViewController: PlayingDelegate {
     }
     
     func playback() {
-        playingView.playingslider.maximumValue = Float(playbackModel?.audioPlayer?.duration ?? 0)
+        guard let _duration = playbackModel?.audioPlayer?.duration, _duration > 0 else {
+            print("durationが存在しない")
+            return
+        }
+        playingView.playingslider.maximumValue = Float(_duration)
         playbackModel?.play()
         valueOfSliderChange()
     }
     
     func pause() {
         playbackModel?.pause()
-        playingView.playingslider.value = Float(playbackModel?.audioPlayer?.duration ?? 0)
+    
+        playingView.playingslider.value = Float(playbackModel?.audioPlayer?.currentTime ?? 0)
     }
     
 }
