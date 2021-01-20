@@ -14,7 +14,6 @@ class OperationOfPlayback: NSObject, AVAudioPlayerDelegate {
     let audioSession = AVAudioSession.sharedInstance()
     var audioPlayer: AVAudioPlayer?
     var audioDuraion: TimeInterval?
-    //var isPlaying: Bool = false
     
     init?(fileName: String) {
         super.init()
@@ -45,6 +44,7 @@ class OperationOfPlayback: NSObject, AVAudioPlayerDelegate {
             print("AVAudioPlayerのインスタンス化失敗した\(error)")
         }
     }
+    
     func pause() {
         audioPlayer?.pause()
     }

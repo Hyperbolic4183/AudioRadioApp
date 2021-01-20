@@ -15,13 +15,10 @@ class CustomTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUIView()
         setupcellLabel()
+        self.selectionStyle = .none
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
-        print("setHighlighted")
-        
     }
     
     private func setupUIView() {
@@ -34,19 +31,7 @@ class CustomTableViewCell: UITableViewCell {
             $0.center.equalToSuperview()
         }
     }
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("touchesBegan")
-        super.touchesBegan(touches, with: event)
-        backView.backgroundColor = UIColor(233,201,54)
-    }
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesEnded(touches, with: event)
-        backView.backgroundColor = UIColor(255,189,40)
-    }
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesCancelled(touches, with: event)
-        backView.backgroundColor = UIColor(255,189,40)
-    }
+    
     
     private func setupcellLabel() {
         titleLabel.font = UIFont.systemFont(ofSize: 20)
@@ -68,6 +53,6 @@ class CustomTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: true)
         print("selected")
-        addSubview(backView)
+        backView.backgroundColor = selected ? UIColor(233,201,54) : UIColor(255,189,40)
     }
 }

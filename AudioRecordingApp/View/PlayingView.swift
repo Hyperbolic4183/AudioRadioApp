@@ -8,13 +8,7 @@
 import UIKit
 import SnapKit
 
-protocol PlayingDelegate: class {
-    func playback()
-    func pause()
-    func valueChanged()
-    func forward10()
-    func goback10()
-}
+
 
 
 class PlayingView: UIView {
@@ -42,7 +36,6 @@ class PlayingView: UIView {
     }
     
     private func setup() {
-        
         setupPlayingSlider()
         setupPauseButton()
         setupPlayButton()
@@ -124,6 +117,7 @@ class PlayingView: UIView {
             $0.centerY.equalTo(playButton.snp.centerY)
         }
     }
+    
     @objc func playButtonTapped() {
         changeButton()
         setSliderValue(maximumValue: self.audioDuration ?? 0)

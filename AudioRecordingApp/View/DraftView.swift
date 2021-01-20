@@ -11,7 +11,6 @@ import SnapKit
 class DraftView: UIView {
     
     let startButton = UIButton()
-    let titleLabel = UILabel()
     let titleTextField = UITextField()
     let saveButton = UIButton()
     let endButton = UIButton()
@@ -23,7 +22,6 @@ class DraftView: UIView {
         self.backgroundColor = UIColor(15,53,74)
         titleTextField.delegate = self
         setupStartButton()
-        setuptitleLabel()
         setupTitleTextField()
         setupSaveButton()
         setupEndButton()
@@ -44,12 +42,13 @@ class DraftView: UIView {
             $0.width.equalTo(size.width)
             $0.height.equalTo(size.height)
             $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().offset(100)
+            $0.centerY.equalToSuperview().multipliedBy(0.6)
         }
     }
     
     private func setupTitleTextField() {
-        titleTextField.placeholder = "タイトルを入力してください"
+        //titleTextField.placeholder = "タイトルを入力してください"
+        titleTextField.attributedPlaceholder = NSAttributedString(string: "タイトルを入力してください", attributes: [NSAttributedString.Key.foregroundColor : UIColor(101,126,149)])
         titleTextField.textColor = .white
         titleTextField.borderStyle = .roundedRect
         titleTextField.backgroundColor = .black
@@ -57,7 +56,7 @@ class DraftView: UIView {
         titleTextField.snp.makeConstraints {
             $0.width.equalToSuperview().multipliedBy(0.8)
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(titleLabel.snp.bottom).offset(50)
+            $0.top.equalTo(startButton.snp.bottom).offset(50)
         }
     }
     
@@ -74,6 +73,7 @@ class DraftView: UIView {
             $0.centerX.equalToSuperview()
             $0.top.equalTo(titleTextField.snp.bottom).offset(50)
         }
+        saveButton.layer.cornerRadius = 5.0
     }
     
     private func setupEndButton() {
@@ -91,19 +91,6 @@ class DraftView: UIView {
             } else {
                 $0.top.equalToSuperview().offset(20)
             }
-        }
-    }
-    
-    private func setuptitleLabel() {
-        titleLabel.text = "タイトル"
-        titleLabel.textColor = .white
-        let size = titleLabel.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
-        addSubview(titleLabel)
-        titleLabel.snp.makeConstraints {
-            $0.width.equalTo(size.width)
-            $0.height.equalTo(size.height)
-            $0.top.equalTo(startButton.snp.bottom)
-            $0.centerX.equalToSuperview()
         }
     }
     
