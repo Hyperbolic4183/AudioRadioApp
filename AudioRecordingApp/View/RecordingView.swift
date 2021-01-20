@@ -188,7 +188,7 @@ class RecordingView: UIView {
         pauseButton.isHidden = true
         restartButton.isHidden = false
         stopButton.isHidden = false
-        recordingDelegate?.pause()
+        recordingDelegate?.recordPause()
         self.timer.invalidate()
     }
     

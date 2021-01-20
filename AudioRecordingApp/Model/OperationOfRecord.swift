@@ -14,7 +14,6 @@ class OperationOfRecord: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegat
     var recordPermisson = false
     let audioSession = AVAudioSession.sharedInstance()
     var audioRecoder: AVAudioRecorder!
-    var audioPlayer: AVAudioPlayer!
     var lastPathComponent: String!
     var fileManagerOperate = FileManagerOperate()
     var audioURL: URL?
@@ -37,25 +36,9 @@ class OperationOfRecord: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegat
             }
         }
     }
-    
-//        do {
-//            try audioSession.setActive(true)
-//        } catch {
-//            print("audioSessionのアクティブ可に失敗した")
-//            return
-//        }
-//    }
     func setCategoryToRecord() {
         do {
             try audioSession.setCategory(.record, mode: .default, options: [])
-        } catch {
-            print("setCategoryに失敗した\(error)")
-        }
-    }
-    
-    func setCategoryToPlayback() {
-        do {
-            try audioSession.setCategory(.playback, mode: .default, options: [])
         } catch {
             print("setCategoryに失敗した\(error)")
         }
@@ -75,8 +58,6 @@ class OperationOfRecord: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegat
         audioURL = url
         do {
             audioRecoder = try AVAudioRecorder(url: url, settings: settings)
-            print("avaudioRecoderのインスタンス化に成功")
-            print("audioRecoderは\(audioRecoder)です")
         } catch {
             print("AVAudioRecoderのインスタンス化に失敗\(error)")
         }
@@ -98,6 +79,7 @@ class OperationOfRecord: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegat
     func stop() {
         print("stop")
         audioRecoder.stop()
+        
         do {
             try audioSession.setActive(false)
             print("setAvtiveに成功した")
@@ -127,19 +109,6 @@ class OperationOfRecord: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegat
         }
     }
     
-    func play() {
-        print("play")
-        setCategoryToPlayback()
-        guard let url = audioURL else { return }
-        print("urlは\(url) from play()")
-        do {
-            try audioPlayer = AVAudioPlayer(contentsOf: url)
-            audioPlayer.play()
-        } catch {
-            print("AVAudioPlayerのインスタンス化失敗した\(error)")
-        }
-    }
-    
     func realmWrite(title: String, path: String, date: Date) {
         print("realmWrite")
         
@@ -152,23 +121,6 @@ class OperationOfRecord: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegat
         try! realm.write {
             realm.add(audio)
         }
-    }
-}
-
-
-class DateUtils {
-    class func dateFromString(string: String, format: String) -> Date {
-        let formatter: DateFormatter = DateFormatter()
-        formatter.calendar = Calendar(identifier: .gregorian)
-        formatter.dateFormat = format
-        return formatter.date(from: string)!
-    }
-
-    class func stringFromDate(date: Date, format: String) -> String {
-        let formatter: DateFormatter = DateFormatter()
-        formatter.calendar = Calendar(identifier: .gregorian)
-        formatter.dateFormat = format
-        return formatter.string(from: date)
     }
 }
 

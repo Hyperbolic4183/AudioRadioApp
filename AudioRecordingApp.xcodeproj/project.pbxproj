@@ -21,6 +21,7 @@
 		47B3160F25A09A9300981F01 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B3160E25A09A9300981F01 /* Extensions.swift */; };
 		47B3161225A09C3400981F01 /* RecordingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B3161125A09C3400981F01 /* RecordingDelegate.swift */; };
 		47B948D725B3119E005C799D /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B948D625B3119E005C799D /* CustomTableViewCell.swift */; };
+		47CDBBAF25B83EC7005ACE3B /* DraftPlayingDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CDBBAE25B83EC7005ACE3B /* DraftPlayingDelegate.swift */; };
 		47DA655A25AAF59A00F6EF5E /* AudioTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DA655925AAF59A00F6EF5E /* AudioTableView.swift */; };
 		47DA656525AB1B7C00F6EF5E /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DA656425AB1B7C00F6EF5E /* MainView.swift */; };
 		47DA656825AB1B9300F6EF5E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DA656725AB1B9300F6EF5E /* MainViewController.swift */; };
@@ -49,6 +50,7 @@
 		47B3160E25A09A9300981F01 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		47B3161125A09C3400981F01 /* RecordingDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingDelegate.swift; sourceTree = "<group>"; };
 		47B948D625B3119E005C799D /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
+		47CDBBAE25B83EC7005ACE3B /* DraftPlayingDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DraftPlayingDelegate.swift; sourceTree = "<group>"; };
 		47DA655925AAF59A00F6EF5E /* AudioTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioTableView.swift; sourceTree = "<group>"; };
 		47DA656425AB1B7C00F6EF5E /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		47DA656725AB1B9300F6EF5E /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 				470FF3F125B54E7C00FD2D6F /* AudioRequestDelegate.swift */,
 				47B3161125A09C3400981F01 /* RecordingDelegate.swift */,
 				470FF3FA25B79D8B00FD2D6F /* PlayingDelegate.swift */,
+				47CDBBAE25B83EC7005ACE3B /* DraftPlayingDelegate.swift */,
 				47DA657325AB3B7400F6EF5E /* FileManagerOperate.swift */,
 				47DA657C25AB476E00F6EF5E /* PlayingModel.swift */,
 				47B3160B25A045C900981F01 /* OperationOfRecord.swift */,
@@ -286,6 +289,7 @@
 				47B948D725B3119E005C799D /* CustomTableViewCell.swift in Sources */,
 				47DA657A25AB410500F6EF5E /* PlayingViewController.swift in Sources */,
 				47B315B6259EEBC200981F01 /* AppDelegate.swift in Sources */,
+				47CDBBAF25B83EC7005ACE3B /* DraftPlayingDelegate.swift in Sources */,
 				47B315DE259F00F100981F01 /* RecordingView.swift in Sources */,
 				47DA656825AB1B9300F6EF5E /* MainViewController.swift in Sources */,
 				47B315B8259EEBC200981F01 /* SceneDelegate.swift in Sources */,

@@ -13,6 +13,7 @@ class PlayingViewController: UIViewController {
     var timer: Timer!
     
     init(audioTitle: String, audioPath: String) {
+        print("pathは\(audioPath)です")//pathは21012015525610.m4aです
         self.audioTitle = audioTitle
         self.audioPath = audioPath
         super.init(nibName: nil, bundle: nil)
@@ -26,6 +27,7 @@ class PlayingViewController: UIViewController {
         self.playingView.pauseButton .isHidden = true
         self.playingView.playingslider.value = 0
     }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -83,8 +85,6 @@ extension PlayingViewController: PlayingDelegate {
     
     func pause() {
         playbackModel?.pause()
-    
         playingView.playingslider.value = Float(playbackModel?.audioPlayer?.currentTime ?? 0)
     }
-    
 }

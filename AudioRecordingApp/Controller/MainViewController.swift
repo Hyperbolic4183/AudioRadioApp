@@ -40,7 +40,7 @@ extension MainViewController: MainViewDelegate {
     func plusButtonTapped() {
         print("plusButtonTapped")
         let recordingVC = RecordingViewController()
-        recordingVC.model = OperationOfRecord()
+        recordingVC.recordingModel = OperationOfRecord()
         recordingVC.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
         recordingVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
         present(recordingVC, animated: true, completion: nil)

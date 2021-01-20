@@ -10,35 +10,53 @@ import SnapKit
 
 class DraftView: UIView {
     
-    let startButton = UIButton()
+    let playButton = UIButton()
+    let pauseButton = UIButton()
     let titleTextField = UITextField()
     let saveButton = UIButton()
     let endButton = UIButton()
     
-    weak var delegate: RecordingViewDelegate?
+    
+    weak var recordingDelegate: RecordingViewDelegate?
+    weak var draftPlayingDelegate: DraftPlayingDelegate?
     
     override init(frame: CGRect) {
+        //self.path = path
         super.init(frame: frame)
         self.backgroundColor = UIColor(15,53,74)
         titleTextField.delegate = self
-        setupStartButton()
+        setupPlayButton()
         setupTitleTextField()
         setupSaveButton()
         setupEndButton()
+        setupPauseButton()
     }
-    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupStartButton() {
+    private func setupPlayButton() {
         let image = UIImage(systemName: "play.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 30, weight: .bold, scale: .large))?.withTintColor(UIColor(255,189,40), renderingMode: .alwaysOriginal)
-        startButton.setImage(image, for: .normal)
-        startButton.addTarget(self, action: #selector(playButtonTapped), for: .touchUpInside)
-        let size = startButton.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
-        addSubview(startButton)
-        startButton.snp.makeConstraints {
+        playButton.setImage(image, for: .normal)
+        playButton.addTarget(self, action: #selector(playButtonTapped), for: .touchUpInside)
+        let size = playButton.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
+        addSubview(playButton)
+        playButton.snp.makeConstraints {
+            $0.width.equalTo(size.width)
+            $0.height.equalTo(size.height)
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalToSuperview().multipliedBy(0.6)
+        }
+    }
+    private func setupPauseButton() {
+        pauseButton.isHidden = true
+        let image = UIImage(systemName: "pause.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 30, weight: .bold, scale: .large))?.withTintColor(UIColor(255,189,40), renderingMode: .alwaysOriginal)
+        pauseButton.setImage(image, for: .normal)
+        pauseButton.addTarget(self, action: #selector(pauseButtonTapped), for: .touchUpInside)
+        let size = playButton.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
+        addSubview(pauseButton)
+        pauseButton.snp.makeConstraints {
             $0.width.equalTo(size.width)
             $0.height.equalTo(size.height)
             $0.centerX.equalToSuperview()
@@ -55,7 +73,7 @@ class DraftView: UIView {
         titleTextField.snp.makeConstraints {
             $0.width.equalToSuperview().multipliedBy(0.8)
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(startButton.snp.bottom).offset(50)
+            $0.top.equalTo(playButton.snp.bottom).offset(50)
         }
     }
     
@@ -96,18 +114,24 @@ class DraftView: UIView {
     
     @objc func endButtonTapped() {
         print("test endButtonTapped")
-        delegate?.dismiss()
+        recordingDelegate?.dismiss()
     }
     
     @objc func playButtonTapped() {
-        print("playButtonTapped")
-        delegate?.play()
+        draftPlayingDelegate?.playback()
+        pauseButton.isHidden = false
+        playButton.isHidden = true
+        
+    }
+    @objc func pauseButtonTapped() {
+        draftPlayingDelegate?.playingPause()
+        pauseButton.isHidden = true
+        playButton.isHidden = false
     }
     
     @objc func saveButtonTapped() {
         print("saveButtonTapped")
-        delegate?.save(title: titleTextField.text ?? "新規作成")
-        print("入力されたタイトルは\(titleTextField.text)")
+        recordingDelegate?.save(title: titleTextField.text ?? "新規作成")
         //テキストを渡す
     }
     func textFieldInputted() {

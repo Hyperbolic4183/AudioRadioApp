@@ -9,7 +9,6 @@ import Foundation
 import AVFoundation
 
 class OperationOfPlayback: NSObject, AVAudioPlayerDelegate {
-    let notificationCenter = NotificationCenter()
     let fileManager = FileManager.default
     let audioSession = AVAudioSession.sharedInstance()
     var audioPlayer: AVAudioPlayer?
@@ -19,6 +18,16 @@ class OperationOfPlayback: NSObject, AVAudioPlayerDelegate {
         super.init()
         
         let url = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("AudioFile").appendingPathComponent(fileName)
+        do {
+            try audioPlayer = AVAudioPlayer(contentsOf: url)
+            self.audioDuraion = audioPlayer?.duration
+            audioPlayer?.delegate = self
+        } catch {
+            audioPlayer = nil
+        }
+    }
+    init?(url: URL) {
+        super.init()
         do {
             try audioPlayer = AVAudioPlayer(contentsOf: url)
             self.audioDuraion = audioPlayer?.duration
@@ -37,9 +46,10 @@ class OperationOfPlayback: NSObject, AVAudioPlayerDelegate {
     }
     
     func play() {
+        changeCategoryToPlay()
         do {
             audioPlayer?.play()
-            
+            print("再生された")
         } catch {
             print("AVAudioPlayerのインスタンス化失敗した\(error)")
         }
@@ -50,8 +60,9 @@ class OperationOfPlayback: NSObject, AVAudioPlayerDelegate {
     }
     
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-        
+        print("audioPlayerDidFinishPlaying")
         //通知を送る
         NotificationCenter.default.post(name: .init(rawValue: "audioPlayerDidFinishPlaying"), object: nil)
+        NotificationCenter.default.post(name: .init(rawValue: "draftAudioPlayerDidFinishPlaying"), object: nil)
     }
 }

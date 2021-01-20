@@ -14,3 +14,4 @@ protocol PlayingDelegate: class {
     func forward10()
     func goback10()
 }
+
