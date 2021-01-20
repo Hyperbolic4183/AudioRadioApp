@@ -39,8 +39,7 @@ class MainView: UIView {
     }
     
     private func setupAddButton() {
-        let image = UIImage(systemName: "plus", withConfiguration: UIImage.SymbolConfiguration(pointSize: 30, weight: .light, scale: .default))?.withTintColor(.black, renderingMode: .alwaysOriginal)
-        addButton.setTitleColor(.black, for: .normal)
+        let image = UIImage(systemName: "plus", withConfiguration: UIImage.SymbolConfiguration(pointSize: 30, weight: .light, scale: .default))?.withTintColor(UIColor(15,53,74), renderingMode: .alwaysOriginal)
         addButton.backgroundColor = .orange
         addButton.addTarget(self, action: #selector(plusButtonTapped), for: .touchDown)
         addButton.setImage(image, for: .normal)

@@ -33,7 +33,7 @@ class DraftView: UIView {
     }
     
     private func setupStartButton() {
-        let image = UIImage(systemName: "play.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 50, weight: .bold, scale: .large))?.withTintColor(UIColor(255,189,40), renderingMode: .alwaysOriginal)
+        let image = UIImage(systemName: "play.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 30, weight: .bold, scale: .large))?.withTintColor(UIColor(255,189,40), renderingMode: .alwaysOriginal)
         startButton.setImage(image, for: .normal)
         startButton.addTarget(self, action: #selector(playButtonTapped), for: .touchUpInside)
         let size = startButton.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
@@ -47,7 +47,6 @@ class DraftView: UIView {
     }
     
     private func setupTitleTextField() {
-        //titleTextField.placeholder = "タイトルを入力してください"
         titleTextField.attributedPlaceholder = NSAttributedString(string: "タイトルを入力してください", attributes: [NSAttributedString.Key.foregroundColor : UIColor(101,126,149)])
         titleTextField.textColor = .white
         titleTextField.borderStyle = .roundedRect
@@ -62,7 +61,8 @@ class DraftView: UIView {
     
     private func setupSaveButton() {
         saveButton.setTitle("保存する", for: .normal)
-        saveButton.setTitleColor(.black, for: .normal)
+        saveButton.setTitleColor(.gray, for: .normal)
+        saveButton.isEnabled = false
         saveButton.backgroundColor = UIColor(255,189,40)
         saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
         let size = saveButton.sizeThatFits(CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude))
@@ -109,6 +109,27 @@ class DraftView: UIView {
         delegate?.save(title: titleTextField.text ?? "新規作成")
         print("入力されたタイトルは\(titleTextField.text)")
         //テキストを渡す
+    }
+    func textFieldInputted() {
+        if titleTextField.text == "" {
+            saveButton.titleLabel?.tintColor = .gray
+            print("何も入力されていない")
+        } else {
+            print("何か入力されている")
+            saveButton.titleLabel?.tintColor = .black
+        }
+    }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let textLength = (textField.text! as NSString).replacingCharacters(in: range, with: string).count
+        if textLength > 0 && textLength < 25 {
+            saveButton.setTitleColor(.black, for: .normal)
+            saveButton.isEnabled = true
+            return true
+        } else {
+            saveButton.setTitleColor(.gray, for: .normal)
+            saveButton.isEnabled = false
+            return true
+        }
     }
 }
 

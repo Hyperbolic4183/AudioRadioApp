@@ -18,39 +18,40 @@ class RecordingViewController: UIViewController {
     }
     
     // ----------Modelの設定----------
-    var model = OperationOfRecord()
+    var model: OperationOfRecord?
     
     override func viewDidLoad() {
-        
         recordingView.recordingDelegate = self
         recordingView.audioRequestDelegate = self
         draftView.delegate = self
-        
     }
-    
+    override func viewWillDisappear(_ animated: Bool) {
+        model?.audioPlayer = nil
+        model = nil
+    }
 }
 
 extension RecordingViewController: RecordingViewDelegate {
     
     func start() {
-        model.start()
+        model?.start()
     }
     
     func pause() {
-        model.pause()
+        model?.pause()
     }
     
     func restart() {
-        model.restart()
+        model?.restart()
     }
     
     func stop() {
-        model.stop()
+        model?.stop()
         view = draftView
     }
     
     func save(title: String) {
-        model.save(title: title)
+        model?.save(title: title)
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -60,14 +61,14 @@ extension RecordingViewController: RecordingViewDelegate {
     }
     
     func play() {
-        model.play()
+        model?.play()
     }
 }
 
 extension RecordingViewController: AudioRequestDelegate{
     //許可を求めるアラートを出す
     func requestPermission() {
-        model.requestRecord()
+        model?.requestRecord()
     }
     //拒否されているので、設定し直すアラートを出す
     func showPermissionChangeAlert() {
@@ -84,6 +85,6 @@ extension RecordingViewController: AudioRequestDelegate{
     
     //許可されている時
     func authorized() {
-        model.start()
+        model?.start()
     }
 }

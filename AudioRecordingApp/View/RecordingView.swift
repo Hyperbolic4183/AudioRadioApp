@@ -60,7 +60,6 @@ class RecordingView: UIView {
         }
         self.startButton.layer.masksToBounds = true
         self.startButton.layer.cornerRadius = CGFloat((side)/2)
-        //print(side)124
     }
     
     private func setupPauseButton() {
@@ -203,11 +202,9 @@ class RecordingView: UIView {
     
     @objc func stopButtonTapped() {
         recordingDelegate?.stop()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [self] in
-            restartButton.isHidden = true
-            stopButton.isHidden = true
-            startButton.isHidden = false
-        }
+        restartButton.isHidden = true
+        stopButton.isHidden = true
+        startButton.isHidden = false
     }
     
     @objc func endButtonTapped() {

@@ -50,9 +50,7 @@ class OperationOfPlayback: NSObject, AVAudioPlayerDelegate {
     }
     
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-        if player.currentTime == player.duration {
-            print("同じ")
-        }
+        
         //通知を送る
         NotificationCenter.default.post(name: .init(rawValue: "audioPlayerDidFinishPlaying"), object: nil)
     }

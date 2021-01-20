@@ -32,7 +32,6 @@ class MainViewController: UIViewController {
 
 extension MainViewController: MainViewDelegate {
     func didSelectedRow(title: String, audioPath: String) {
-        let arr = mainview.audioTableView.audioArray
         let playingVC = PlayingViewController(audioTitle: title, audioPath: audioPath)
         self.navigationController?.pushViewController(playingVC, animated: true)
     }
@@ -41,6 +40,7 @@ extension MainViewController: MainViewDelegate {
     func plusButtonTapped() {
         print("plusButtonTapped")
         let recordingVC = RecordingViewController()
+        recordingVC.model = OperationOfRecord()
         recordingVC.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
         recordingVC.modalPresentationStyle = UIModalPresentationStyle.fullScreen
         present(recordingVC, animated: true, completion: nil)

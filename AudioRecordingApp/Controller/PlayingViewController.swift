@@ -11,19 +11,20 @@ class PlayingViewController: UIViewController {
     let audioTitle: String
     let audioPath: String
     var timer: Timer!
-    let notificationCenter = NotificationCenter()
     
     init(audioTitle: String, audioPath: String) {
         self.audioTitle = audioTitle
         self.audioPath = audioPath
         super.init(nibName: nil, bundle: nil)
-        NotificationCenter.default.addObserver(forName: .init(rawValue: "audioPlayerDidFinishPlaying"), object: nil, queue: nil, using: {[unowned self] _ in
-            print("終了した")
-            playingView.isPlaying.toggle()
-            playingView.playButton.isHidden = false
-            playingView.pauseButton .isHidden = true
-            playingView.playingslider.value = 0
-        })
+        NotificationCenter.default.addObserver(self, selector: #selector(notification), name: NSNotification.Name(rawValue: "audioPlayerDidFinishPlaying"), object: nil)
+    }
+    
+    @objc func notification() {
+        print("終了した")
+        self.playingView.isPlaying.toggle()
+        self.playingView.playButton.isHidden = false
+        self.playingView.pauseButton .isHidden = true
+        self.playingView.playingslider.value = 0
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

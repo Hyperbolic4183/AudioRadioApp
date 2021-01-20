@@ -37,7 +37,7 @@ class CustomTableViewCell: UITableViewCell {
         titleLabel.font = UIFont.systemFont(ofSize: 20)
         backView.addSubview(titleLabel)
         titleLabel.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(50)
+            $0.centerX.equalToSuperview().offset(30)
             $0.centerY.equalToSuperview()
             $0.width.equalToSuperview()
         }
@@ -52,7 +52,6 @@ class CustomTableViewCell: UITableViewCell {
     }
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: true)
-        print("selected")
         backView.backgroundColor = selected ? UIColor(255,226,146) : UIColor(255,189,40)
     }
 }
