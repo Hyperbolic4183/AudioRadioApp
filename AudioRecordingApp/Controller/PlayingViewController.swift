@@ -19,7 +19,9 @@ class PlayingViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         NotificationCenter.default.addObserver(forName: .init(rawValue: "audioPlayerDidFinishPlaying"), object: nil, queue: nil, using: {[unowned self] _ in
             print("終了した")
-            //playingView.changeButton()
+            playingView.isPlaying.toggle()
+            playingView.playButton.isHidden = false
+            playingView.pauseButton .isHidden = true
         })
     }
     
@@ -39,6 +41,11 @@ class PlayingViewController: UIViewController {
         playingView.delegate = self
         playbackModel = OperationOfPlayback(fileName: audioPath)
         
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        print("viewWillDisappear")
+        playbackModel?.pause()
+        playbackModel?.audioPlayer = nil
     }
     
     func valueOfSliderChange() {
