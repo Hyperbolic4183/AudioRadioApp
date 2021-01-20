@@ -53,6 +53,6 @@ class CustomTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: true)
         print("selected")
-        backView.backgroundColor = selected ? UIColor(233,201,54) : UIColor(255,189,40)
+        backView.backgroundColor = selected ? UIColor(255,226,146) : UIColor(255,189,40)
     }
 }
