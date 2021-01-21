@@ -130,8 +130,7 @@ class PlayingView: UIView {
     }
     
     @objc func sliderDidChangedValue(_ sender: UISlider) {
-        print(sender.value)
-        delegate?.valueChanged()
+        delegate?.valueOfSliderChanged()
     }
     
     @objc func sliderTouchUpedInside() {

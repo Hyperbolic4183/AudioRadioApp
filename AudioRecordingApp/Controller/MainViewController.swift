@@ -25,7 +25,6 @@ class MainViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        print("viewWillAppear")
         mainview.audioTableView.reloadData()
     }
 }
@@ -38,7 +37,6 @@ extension MainViewController: MainViewDelegate {
     
     
     func plusButtonTapped() {
-        print("plusButtonTapped")
         let recordingVC = RecordingViewController()
         recordingVC.recordingModel = OperationOfRecord()
         recordingVC.modalTransitionStyle = UIModalTransitionStyle.crossDissolve

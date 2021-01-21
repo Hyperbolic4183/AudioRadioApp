@@ -46,7 +46,6 @@ class OperationOfRecord: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegat
     
     func start() {
         setCategoryToRecord()
-        print("start")
         let settings = [
             AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
             AVSampleRateKey: 44100,
@@ -54,7 +53,6 @@ class OperationOfRecord: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegat
             AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
         ]
         guard let url = fileManagerOperate.addFileToDraftFolder() else { return }
-        print("urlは\(url) from start()")
         audioURL = url
         do {
             audioRecoder = try AVAudioRecorder(url: url, settings: settings)
@@ -67,22 +65,18 @@ class OperationOfRecord: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegat
     }
     
     func pause() {
-        print("pause")
         audioRecoder.pause()
     }
     
     func restart() {
-        print("restart")
         audioRecoder.record()
     }
     
     func stop() {
-        print("stop")
         audioRecoder.stop()
         
         do {
             try audioSession.setActive(false)
-            print("setAvtiveに成功した")
         } catch {
             print("setActiveに失敗した\(error)")
         }
@@ -103,7 +97,6 @@ class OperationOfRecord: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegat
         do {
             try fileManager.moveItem(at: atPath, to: toPath)
             realmWrite(title: title, path: lastPathComponent, date: now)
-            print("ファイルの移動に成功")
         } catch {
             print("ファイルの移動に失敗\(error)")
         }
@@ -112,11 +105,9 @@ class OperationOfRecord: NSObject, AVAudioRecorderDelegate, AVAudioPlayerDelegat
     func realmWrite(title: String, path: String, date: Date) {
         print("realmWrite")
         
-        let audio: PlayingModel = PlayingModel()
+        let audio: AudioMemo = AudioMemo()
         audio.title = title
-        audio.path = path
-        //audio.date = date
-        print("pathは\(path)")
+        audio.audioFilepath = path
         let realm = try! Realm()
         try! realm.write {
             realm.add(audio)

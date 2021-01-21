@@ -8,10 +8,7 @@
 import UIKit
 import SnapKit
 
-protocol MainViewDelegate: class {
-    func plusButtonTapped()
-    func didSelectedRow(title: String, audioPath: String)
-}
+
 
 class MainView: UIView {
     
@@ -41,7 +38,7 @@ class MainView: UIView {
     private func setupAddButton() {
         let image = UIImage(systemName: "plus", withConfiguration: UIImage.SymbolConfiguration(pointSize: 30, weight: .light, scale: .default))?.withTintColor(UIColor(15,53,74), renderingMode: .alwaysOriginal)
         addButton.backgroundColor = .orange
-        addButton.addTarget(self, action: #selector(plusButtonTapped), for: .touchDown)
+        addButton.addTarget(self, action: #selector(plusButtonTapped), for: .touchUpInside)
         addButton.setImage(image, for: .normal)
         addSubview(addButton)
         addButton.snp.makeConstraints {
@@ -61,7 +58,6 @@ class MainView: UIView {
 
 extension MainView:AudioTableViewDelegate {
     func didSelectedRow(title: String, audioPath: String) {
-        print("didSelectedRow from MainVC")
         delegate?.didSelectedRow(title: title, audioPath: audioPath)
     }
 }

@@ -113,7 +113,6 @@ class DraftView: UIView {
     }
     
     @objc func endButtonTapped() {
-        print("test endButtonTapped")
         recordingDelegate?.dismiss()
     }
     
@@ -130,7 +129,6 @@ class DraftView: UIView {
     }
     
     @objc func saveButtonTapped() {
-        print("saveButtonTapped")
         recordingDelegate?.save(title: titleTextField.text ?? "新規作成")
         //テキストを渡す
     }

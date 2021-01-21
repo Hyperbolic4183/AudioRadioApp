@@ -7,10 +7,10 @@
 
 import Foundation
 
-protocol PlayingDelegate: class {
+protocol PlayingDelegate: AnyObject {
     func playback()
     func pause()
-    func valueChanged()
+    func valueOfSliderChanged()
     func forward10()
     func goback10()
 }

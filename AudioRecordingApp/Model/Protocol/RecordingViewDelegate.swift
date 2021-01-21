@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol RecordingViewDelegate: class {
+protocol RecordingViewDelegate: AnyObject {
     func start()
     func stop()
     func recordPause()

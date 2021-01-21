@@ -6,7 +6,7 @@
 //
 
 import Foundation
-protocol AudioRequestDelegate: class {
+protocol AudioRequestDelegate: AnyObject {
     func requestPermission()
     func showPermissionChangeAlert()
     func authorized()

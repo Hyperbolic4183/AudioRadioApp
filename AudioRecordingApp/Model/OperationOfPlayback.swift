@@ -49,7 +49,6 @@ class OperationOfPlayback: NSObject, AVAudioPlayerDelegate {
         changeCategoryToPlay()
         do {
             audioPlayer?.play()
-            print("再生された")
         } catch {
             print("AVAudioPlayerのインスタンス化失敗した\(error)")
         }
@@ -60,9 +59,8 @@ class OperationOfPlayback: NSObject, AVAudioPlayerDelegate {
     }
     
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-        print("audioPlayerDidFinishPlaying")
         //通知を送る
-        NotificationCenter.default.post(name: .init(rawValue: "audioPlayerDidFinishPlaying"), object: nil)
-        NotificationCenter.default.post(name: .init(rawValue: "draftAudioPlayerDidFinishPlaying"), object: nil)
+        NotificationCenter.default.post(name: .init(rawValue: notificationOfDraftAudioPlayerFinished), object: nil)
+        NotificationCenter.default.post(name: .init(rawValue: notificationOfDraftAudioPlayerFinished), object: nil)
     }
 }

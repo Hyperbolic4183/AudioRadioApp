@@ -13,15 +13,13 @@ class PlayingViewController: UIViewController {
     var timer: Timer!
     
     init(audioTitle: String, audioPath: String) {
-        print("pathは\(audioPath)です")//pathは21012015525610.m4aです
         self.audioTitle = audioTitle
         self.audioPath = audioPath
         super.init(nibName: nil, bundle: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(notification), name: NSNotification.Name(rawValue: "audioPlayerDidFinishPlaying"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(notification), name: NSNotification.Name(rawValue: notificationOfDraftAudioPlayerFinished), object: nil)
     }
     
     @objc func notification() {
-        print("終了した")
         self.playingView.isPlaying.toggle()
         self.playingView.playButton.isHidden = false
         self.playingView.pauseButton .isHidden = true
@@ -47,7 +45,7 @@ class PlayingViewController: UIViewController {
     }
     override func viewWillDisappear(_ animated: Bool) {
         playbackModel?.audioPlayer = nil
-        NotificationCenter.default.removeObserver(self, name: .init(rawValue: "audioPlayerDidFinishPlaying"), object: nil)
+        NotificationCenter.default.removeObserver(self, name: .init(rawValue: notificationOfDraftAudioPlayerFinished), object: nil)
     }
     
     func valueOfSliderChange() {
@@ -69,7 +67,7 @@ extension PlayingViewController: PlayingDelegate {
         playbackModel?.audioPlayer?.currentTime -= 10
     }
     
-    func valueChanged() {
+    func valueOfSliderChanged() {
         playbackModel?.audioPlayer?.currentTime = TimeInterval(playingView.playingslider.value)
     }
     

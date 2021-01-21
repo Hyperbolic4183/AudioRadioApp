@@ -8,19 +8,15 @@
 import UIKit
 import RealmSwift
 
-protocol AudioTableViewDelegate: class {
-    func didSelectedRow(title: String, audioPath: String)
-}
+
 
 class AudioTableView: UITableView{
     var realm: Realm?
-    var audioArray: Results<PlayingModel>?
+    var audioArray: Results<AudioMemo>? 
     weak var audioTableViewDelegate: AudioTableViewDelegate?
     
     override init(frame: CGRect, style: UITableView.Style) {
-        print("init")
         super.init(frame: frame, style: .plain)
-        autoresizingMask = [.flexibleWidth, .flexibleHeight]
         delegate = self
         dataSource = self
         register(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
@@ -36,7 +32,6 @@ class AudioTableView: UITableView{
     private func setupRealm() {
         do {
             try realm = Realm()
-            print("realmのインスタンス化に成功")
             setupAudioArray()
         } catch {
             print("realmのインスタンス化に失敗")
@@ -45,8 +40,7 @@ class AudioTableView: UITableView{
     
     private func setupAudioArray() {
         do {
-            audioArray = try Realm().objects(PlayingModel.self).sorted(byKeyPath: "date", ascending: false)
-            print("audioArrayへのオブジェクトの代入に成功")
+            audioArray = try Realm().objects(AudioMemo.self).sorted(byKeyPath: "date", ascending: false)
         } catch {
             print("audioArrayへのオブジェクトの代入に失敗")
         }
@@ -56,25 +50,23 @@ class AudioTableView: UITableView{
 extension AudioTableView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 70
+        70
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return audioArray?.count ?? 0
+        audioArray?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomTableViewCell
-        let audio: PlayingModel = audioArray?[indexPath.row] ?? PlayingModel()
+        let audio: AudioMemo = audioArray?[indexPath.row] ?? AudioMemo()
         cell.titleLabel.text = audio.title
         return cell
     }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath)
-        let playingModel = audioArray?[indexPath.row] ?? PlayingModel()
+        let playingModel = audioArray?[indexPath.row] ?? AudioMemo()
         let title = playingModel.title
-        let path = playingModel.path
+        let path = playingModel.audioFilepath
         audioTableViewDelegate?.didSelectedRow(title: title, audioPath: path)
     }
 }

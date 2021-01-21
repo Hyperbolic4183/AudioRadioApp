@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol DraftPlayingDelegate: class {
+protocol DraftPlayingDelegate: AnyObject {
     func playback()
     func playingPause()
 }

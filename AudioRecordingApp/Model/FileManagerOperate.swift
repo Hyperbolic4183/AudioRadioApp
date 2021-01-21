@@ -74,7 +74,6 @@ struct FileManagerOperate {
         let documentDirectoryFileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         //addfileToFolder("Draft", fileName)
         let url = documentDirectoryFileURL.appendingPathComponent("Draft").appendingPathComponent(fileName)
-        print("urlは\(url)です")
         return url
     }
     
